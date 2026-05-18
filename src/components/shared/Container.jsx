@@ -1,9 +1,7 @@
-import React, { Children } from 'react';
-
-const Container = () => {
+const Container = ({ children }) => {
     return (
-        <div className='w-11/12 mx-auto'>
-            {Children}
+        <div className="w-11/12 mx-auto">
+            {children}
         </div>
     );
 };
