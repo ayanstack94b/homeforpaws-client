@@ -12,7 +12,7 @@ const AddPetPage = () => {
         formState: { errors },
     } = useForm();
 
-    const onSubmit = (data) => {
+    const onSubmit = async(data) => {
 
         const petData = {
             ...data,
@@ -30,6 +30,18 @@ const AddPetPage = () => {
         setTimeout(() => {
             setShowSuccess(false);
         }, 3000);
+
+        // getting the data from DB
+        const res = await fetch('http://localhost:5000/pet', {
+            method: "POST",
+            headers: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify(data)
+        })
+        const resData = await res.json()
+        
+        console.log(resData);
     };
 
     return (
@@ -400,10 +412,10 @@ const AddPetPage = () => {
                                 </label>
 
                                 <textarea
-                                    rows={5}
+                                    rows={3}
                                     placeholder="Write pet details..."
                                     className="textarea textarea-bordered w-full rounded-xl"
-                                    {...register("description")}
+                                    {...register("message")}
                                 ></textarea>
                             </div>
 
