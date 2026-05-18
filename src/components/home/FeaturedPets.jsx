@@ -6,7 +6,12 @@ const FeaturedPets = async () => {
     console.log(petsData);
     return (
         <div>
-            FeaturedPets.jsx
+            <section>
+                {
+
+                }
+            </section>
+            
         </div>
     );
 };
