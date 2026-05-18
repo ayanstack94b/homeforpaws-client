@@ -126,7 +126,7 @@ const Navbar = () => {
                 </div>
 
             </div>
-f
+
         </div>
     );
 };
