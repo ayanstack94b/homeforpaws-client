@@ -1,9 +1,91 @@
-import React from 'react';
+"use client";
+
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+
+import PetCard from "@/components/shared/PetCard";
+import PuppySpinner from "@/components/shared/PuppySpinner";
 
 const AllPetsPage = () => {
+
+    const [pets, setPets] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+
+        fetch("http://localhost:5000/pet")
+            .then((res) => res.json())
+            .then((data) => {
+
+                setPets(data);
+
+                setLoading(false);
+
+            });
+
+    }, []);
+
+    if (loading) {
+        return <PuppySpinner />;
+    }
+
     return (
-        <div>
-            all-pets
+
+        <div className="min-h-screen bg-slate-50 py-20">
+
+            <div className="w-11/12 mx-auto">
+
+                {/* Heading */}
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                    className="mb-14 text-center"
+                >
+
+                    <h1 className="text-4xl md:text-5xl font-bold text-gray-800">
+
+                        All Pets
+
+                    </h1>
+
+                    <p className="mx-auto mt-4 max-w-2xl text-gray-600 leading-8">
+
+                        Explore all available pets waiting for a safe,
+                        loving, and caring forever home.
+
+                    </p>
+
+                </motion.div>
+
+                {/* Grid */}
+                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
+
+                    {
+                        pets.map((pet, index) => (
+
+                            <motion.div
+                                key={pet._id}
+                                initial={{ opacity: 0, y: 40 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{
+                                    duration: 0.4,
+                                    delay: index * 0.08,
+                                }}
+                                viewport={{ once: true }}
+                            >
+
+                                <PetCard pet={pet} />
+
+                            </motion.div>
+
+                        ))
+                    }
+
+                </div>
+
+            </div>
+
         </div>
     );
 };

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import PuppySpinner from "../shared/PuppySpinner";
 import PetCard from "../shared/PetCard";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 
 const FeaturedPets = () => {
@@ -13,11 +14,11 @@ const FeaturedPets = () => {
 
     useEffect(() => {
 
-        fetch("http://localhost:5000/pets")
+        fetch("http://localhost:5000/pet")
             .then((res) => res.json())
             .then((data) => {
 
-                setPets(data.slice(0, 6));
+                setPets(data.slice(0, 3));
 
                 setLoading(false);
 
@@ -80,7 +81,16 @@ const FeaturedPets = () => {
                         }
 
                     </div>
+                    <div className="mt-14 flex justify-center">
 
+                        <Link
+                            href="/all-pets"
+                            className="btn h-12 rounded-xl border-0 bg-blue-600 px-8 text-white hover:bg-blue-700"
+                        >
+                            View All Pets
+                        </Link>
+
+                    </div>
                 </div>
 
             </section>
