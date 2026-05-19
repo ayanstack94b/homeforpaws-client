@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 
 import {
@@ -13,11 +14,6 @@ import {
 
 const UserProfilePage = () => {
 
-    /*
-        Later this data will come from:
-        - Better Auth session
-        - MongoDB user collection
-    */
 
     const user = {
         name: "",
@@ -65,7 +61,7 @@ const UserProfilePage = () => {
                 {/* Top Banner */}
                 <div className="relative h-52 bg-gradient-to-r from-blue-500 via-blue-600 to-sky-500">
 
-                    {/* Floating Paw */}
+
                     <motion.div
                         animate={{
                             rotate: [0, -10, 10, -10, 0],
@@ -131,16 +127,17 @@ const UserProfilePage = () => {
                             </p>
 
                             {/* Edit Button */}
-                            <button
-                                className="btn mt-6 rounded-2xl border-0 bg-blue-600 px-6 text-white hover:bg-blue-700"
-                            >
+                            <Link href='/dashboard/user-profile/edit-user'>
+                                <button
+                                    className="btn mt-6 rounded-2xl border-0 bg-blue-600 px-6 text-white hover:bg-blue-700"
+                                >
 
-                                <FaEdit />
+                                    <FaEdit />
 
-                                Edit Profile
+                                    Edit Profile
 
-                            </button>
-
+                                </button>
+                            </Link>
                             {/* Contact Info */}
                             <div className="mt-8 space-y-4">
 
