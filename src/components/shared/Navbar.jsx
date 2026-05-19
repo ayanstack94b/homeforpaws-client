@@ -18,18 +18,15 @@ const Navbar = () => {
                     All Pets
                 </Link>
             </li>
-
             <li>
-                <Link href="/dashboard/my-requests" className="hover:text-blue-600 transition">
-                    My Requests
+                <Link
+                    href="/dashboard"
+                    className="hover:text-blue-600 transition"
+                >
+                    Dashboard
                 </Link>
             </li>
-
-            <li>
-                <Link href="/dashboard/add-pet" className="hover:text-blue-600 transition">
-                    Add Pet
-                </Link>
-            </li>
+          
         </>
     );
 
