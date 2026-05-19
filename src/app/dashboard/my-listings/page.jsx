@@ -1,19 +1,25 @@
 "use client";
 
 import { useEffect, useState } from "react";
+
 import { motion } from "framer-motion";
 
 import PuppySpinner from "@/components/shared/PuppySpinner";
 import DashboardPetCard from "@/components/dashboard/DashboardPetCard";
+import PetEditModal from "../PetEditModal";
+
 
 const MyListingsPage = () => {
 
     const [pets, setPets] = useState([]);
+
     const [loading, setLoading] = useState(true);
 
-    const [showModal, setShowModal] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     const [selectedPetId, setSelectedPetId] = useState(null);
+
+    const [selectedPet, setSelectedPet] = useState(null);
 
     useEffect(() => {
 
@@ -29,13 +35,29 @@ const MyListingsPage = () => {
 
     }, []);
 
+    /*OPEN EDIT MODAL*/
+
+    const openEditModal = (pet) => {
+
+        setSelectedPet(pet);
+
+        document
+            .getElementById("edit_pet_modal")
+            .showModal();
+
+    };
+
+    /*OPEN DELETE MODAL*/
+
     const openDeleteModal = (id) => {
 
         setSelectedPetId(id);
 
-        setShowModal(true);
+        setShowDeleteModal(true);
 
     };
+
+    /*DELETE PET*/
 
     const handleDelete = async () => {
 
@@ -57,7 +79,7 @@ const MyListingsPage = () => {
 
             setPets(remainingPets);
 
-            setShowModal(false);
+            setShowDeleteModal(false);
 
             setSelectedPetId(null);
 
@@ -65,15 +87,20 @@ const MyListingsPage = () => {
 
     };
 
+    /*LOADING*/
+
     if (loading) {
+
         return <PuppySpinner />;
+
     }
 
     return (
 
         <div>
 
-            {/* Heading */}
+            {/* PAGE HEADING*/}
+
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -82,16 +109,21 @@ const MyListingsPage = () => {
             >
 
                 <h1 className="text-3xl font-bold text-gray-800">
+
                     My Listings
+
                 </h1>
 
                 <p className="mt-2 text-gray-600">
+
                     Manage all your listed pets from here.
+
                 </p>
 
             </motion.div>
 
-            {/* Grid */}
+            {/*PET GRID*/}
+
             <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
 
                 {
@@ -99,8 +131,14 @@ const MyListingsPage = () => {
 
                         <motion.div
                             key={pet._id}
-                            initial={{ opacity: 0, y: 30 }}
-                            animate={{ opacity: 1, y: 0 }}
+                            initial={{
+                                opacity: 0,
+                                y: 30,
+                            }}
+                            animate={{
+                                opacity: 1,
+                                y: 0,
+                            }}
                             transition={{
                                 duration: 0.4,
                                 delay: index * 0.08,
@@ -110,6 +148,7 @@ const MyListingsPage = () => {
                             <DashboardPetCard
                                 pet={pet}
                                 openDeleteModal={openDeleteModal}
+                                openEditModal={openEditModal}
                             />
 
                         </motion.div>
@@ -119,22 +158,33 @@ const MyListingsPage = () => {
 
             </div>
 
-            {/* DELETE MODAL */}
-            {
-                showModal && (
+            {/*DELETE MODAL*/}
 
-                    <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/30 backdrop-blur-sm px-4">
+            {
+                showDeleteModal && (
+
+                    <div className="fixed inset-0 z-999 flex items-center justify-center bg-black/30 backdrop-blur-sm px-4">
 
                         <motion.div
-                            initial={{ opacity: 0, scale: 0.7 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 0.3 }}
+                            initial={{
+                                opacity: 0,
+                                scale: 0.7,
+                            }}
+                            animate={{
+                                opacity: 1,
+                                scale: 1,
+                            }}
+                            transition={{
+                                duration: 0.3,
+                            }}
                             className="w-full max-w-md rounded-3xl bg-white p-8 shadow-2xl"
                         >
 
-                            {/* Emoji */}
+                            {/* Paw */}
                             <div className="text-center text-6xl">
+
                                 🐾
+
                             </div>
 
                             {/* Title */}
@@ -157,10 +207,12 @@ const MyListingsPage = () => {
 
                                 {/* Cancel */}
                                 <button
-                                    onClick={() => setShowModal(false)}
+                                    onClick={() => setShowDeleteModal(false)}
                                     className="btn rounded-xl border-0 bg-gray-200 text-gray-700 hover:bg-gray-300"
                                 >
+
                                     Cancel
+
                                 </button>
 
                                 {/* Delete */}
@@ -168,7 +220,9 @@ const MyListingsPage = () => {
                                     onClick={handleDelete}
                                     className="btn rounded-xl border-0 bg-red-500 text-white hover:bg-red-600"
                                 >
+
                                     Delete
+
                                 </button>
 
                             </div>
@@ -179,6 +233,12 @@ const MyListingsPage = () => {
 
                 )
             }
+
+            {/*EDIT MODAL*/}
+
+            <PetEditModal
+                selectedPet={selectedPet}
+            />
 
         </div>
     );

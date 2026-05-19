@@ -13,7 +13,7 @@ import {
 
 import { MdDelete } from "react-icons/md";
 
-const DashboardPetCard = ({pet,openDeleteModal}) => {
+const DashboardPetCard = ({ pet, openDeleteModal, openEditModal}) => {
 
     const { _id, petName, species, breed, image, location, adoptionFee, healthStatus } = pet;
 
@@ -108,8 +108,8 @@ const DashboardPetCard = ({pet,openDeleteModal}) => {
                         </Link>
 
                         {/* Edit */}
-                        <Link
-                            href={`/dashboard/update-pet/${_id}`}
+                        <button
+                            onClick={() => openEditModal(pet)}
                             className="btn rounded-xl border-0 bg-emerald-500 text-white hover:bg-emerald-600"
                         >
 
@@ -117,7 +117,7 @@ const DashboardPetCard = ({pet,openDeleteModal}) => {
 
                             Edit
 
-                        </Link>
+                        </button>
 
                         {/* Delete */}
                         <button
