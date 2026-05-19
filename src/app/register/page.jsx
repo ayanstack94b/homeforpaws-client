@@ -223,13 +223,13 @@ const RegisterPage = () => {
                             {/* Divider */}
                             <div className="my-6 flex items-center gap-4">
 
-                                <div className="h-[1px] flex-1 bg-gray-200"></div>
+                                <div className="h-px flex-1 bg-gray-200"></div>
 
                                 <span className="text-sm text-gray-400">
                                     OR
                                 </span>
 
-                                <div className="h-[1px] flex-1 bg-gray-200"></div>
+                                <div className="h-px flex-1 bg-gray-200"></div>
 
                             </div>
 

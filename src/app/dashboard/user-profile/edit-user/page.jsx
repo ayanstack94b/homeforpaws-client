@@ -171,7 +171,7 @@ const EditUserProfilePage = () => {
 
                         <input
                             type="text"
-                            placeholder="Enter your phone number"
+                            placeholder="Enter your phone number with Dial code"
                             className="input input-bordered w-full rounded-2xl"
                             {...register("phone", {
                                 required: "Phone number is required",
@@ -257,16 +257,16 @@ const EditUserProfilePage = () => {
                         <div className="mb-4 flex flex-wrap gap-3">
 
                             {
-                                defaultBios.map((bio, index) => (
+                                defaultBios.map((bio, i) => (
 
                                     <button
-                                        key={index}
+                                        key={i}
                                         type="button"
                                         onClick={() => handleSelectBio(bio)}
                                         className="rounded-full border border-blue-200 bg-blue-50 px-4 py-2 text-sm text-blue-600 transition hover:bg-blue-100"
                                     >
 
-                                        Use Default Bio {index + 1}
+                                        Use Default Bio {i + 1}
 
                                     </button>
 
@@ -276,7 +276,7 @@ const EditUserProfilePage = () => {
                         </div>
 
                         <textarea
-                            rows={5}
+                            rows={3}
                             placeholder="Write something about yourself"
                             className="textarea textarea-bordered w-full rounded-2xl"
                             {...register("bio", {
@@ -391,7 +391,7 @@ const EditUserProfilePage = () => {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
-                            className="fixed inset-0 z-[999] flex items-center justify-center bg-black/20 backdrop-blur-sm px-4"
+                            className="fixed inset-0 z-999 flex items-center justify-center bg-black/20 backdrop-blur-sm px-4"
                         >
 
                             <motion.div
