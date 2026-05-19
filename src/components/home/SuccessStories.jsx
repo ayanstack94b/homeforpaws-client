@@ -38,7 +38,7 @@ const SuccessStories = () => {
 
     return (
 
-        <section className="bg-slate-50 py-24">
+        <section id="success-stories" className="bg-slate-50 py-24">
 
             <div className="w-11/12 mx-auto">
 

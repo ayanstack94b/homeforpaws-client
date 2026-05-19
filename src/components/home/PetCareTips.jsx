@@ -45,7 +45,7 @@ const PetCareTips = () => {
 
     return (
 
-        <section className="overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100 py-24">
+        <section id="pet-care" className="overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100 py-24">
 
             <div className="w-11/12 mx-auto">
 

@@ -32,7 +32,7 @@ const FeaturedPets = () => {
 
     return (
         <div>
-            <section className="bg-slate-50 py-20">
+            <section id="featured-pets" className="bg-slate-50 py-20">
 
                 <div className="w-11/12 mx-auto">
 
