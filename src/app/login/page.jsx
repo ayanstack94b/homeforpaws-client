@@ -13,6 +13,7 @@ import {
 import { authClient } from "@/lib/auth-client";
 import Swal from "sweetalert2";
 import { redirect } from "next/navigation";
+import { FcGoogle } from "react-icons/fc";
 
 const LoginPage = () => {
 
@@ -64,6 +65,12 @@ const LoginPage = () => {
   
           }
       };
+
+      const handleGoogleLogin=async()=>{
+          const data = await authClient.signIn.social({
+              provider: "google",
+          });
+      }
 
     return (
 
@@ -317,11 +324,11 @@ const LoginPage = () => {
                         </div>
 
                         {/* Google */}
-                        <button
+                        <button onClick={handleGoogleLogin}
                             className="btn h-14 w-full rounded-2xl border border-gray-200 bg-white text-gray-700 hover:bg-gray-50"
                         >
 
-                            <FaGoogle />
+                            <FcGoogle size={20} />
 
                             Continue With Google
 

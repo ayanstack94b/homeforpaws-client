@@ -4,21 +4,58 @@ import { FaPaw } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { authClient } from '@/lib/auth-client';
 import Image from 'next/image';
-
+import Swal from 'sweetalert2';
+import { useRouter } from "next/navigation";
 const Navbar = () => {
-
+    const router = useRouter();
     const {
         data: session,
-        isPending,
-        error
     } = authClient.useSession();
 
-    console.log(session);
-    console.log(isPending);
-    console.log(error);
-
     const user = session?.user
-    console.log(user);
+
+    const handleSignOut = async () => {
+
+        const logout = await Swal.fire({
+
+            title: "Logout?",
+            text: "You will be signed out from your account.",
+            icon: "warning",
+
+            showCancelButton: true,
+
+            confirmButtonColor: "#2563eb",
+            cancelButtonColor: "#d33",
+
+            confirmButtonText: "Yes, Logout",
+
+            background: "#ffffff",
+        });
+        router.push("/");
+
+        if (logout.isConfirmed) {
+
+            await authClient.signOut();
+
+            Swal.fire({
+
+                title: "Logged Out",
+                text: "You have been signed out successfully.",
+                icon: "success",
+
+                confirmButtonColor: "#2563eb",
+
+                timer: 1500,
+
+                showConfirmButton: false,
+
+            });
+
+        }
+
+    };
+
+
     const links = (
         <>
             <li>
@@ -179,7 +216,7 @@ const Navbar = () => {
                                     </Link> */}
 
                                     {/* Logout */}
-                                    <button
+                                    <button onClick={handleSignOut}
                                         className="btn h-11 min-h-0 rounded-2xl border-0 bg-red-500 px-5 text-sm text-white hover:bg-red-600"
                                     >
 
@@ -219,7 +256,7 @@ const Navbar = () => {
                                     {/* Dropdown Menu */}
                                     <ul
                                         tabIndex={0}
-                                        className="menu dropdown-content z-[999] mt-4 w-64 rounded-3xl border border-blue-100 bg-white p-3 shadow-2xl"
+                                        className="menu dropdown-content z-999 mt-4 w-64 rounded-3xl border border-blue-100 bg-white p-3 shadow-2xl"
                                     >
 
                                         {/* User Info */}
