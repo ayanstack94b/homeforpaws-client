@@ -3,6 +3,7 @@
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { authClient } from "@/lib/auth-client";
 
 const AddPetPage = () => {
     const [showSuccess, setShowSuccess] = useState(false);
@@ -12,17 +13,32 @@ const AddPetPage = () => {
         formState: { errors },
     } = useForm();
 
+    const {
+        data: session,
+    } = authClient.useSession();
+
+    const user = session?.user;
+
+
     const onSubmit = async(data) => {
 
         const petData = {
-            ...data,
-            age: {
-                day: data.day,
-                month: data.month,
-                year: data.year,
-            }
-        };
 
+            ...data,
+
+            ownerEmail: user?.email,
+
+            age: {
+
+                day: data.day,
+
+                month: data.month,
+
+                year: data.year,
+
+            },
+
+        };
         console.log(petData);
 
         setShowSuccess(true);
@@ -37,7 +53,7 @@ const AddPetPage = () => {
             headers: {
                 "content-type": "application/json"
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify(petData)
         })
         const resData = await res.json()
         
@@ -118,6 +134,7 @@ const AddPetPage = () => {
                                     <option>Rabbit</option>
                                     <option>Camel</option>
                                     <option>Crow</option>
+                                    <option>Others</option>
                                 </select>
 
                                 {
@@ -281,26 +298,71 @@ const AddPetPage = () => {
 
                             {/* Health Status */}
                             <div>
+
                                 <label className="mb-2 block font-medium text-gray-700">
+
                                     Health Status
+
                                 </label>
 
-                                <input
-                                    type="text"
-                                    placeholder="Healthy / Under Treatment"
-                                    className="input input-bordered w-full rounded-xl"
+                                <select
+                                    className="select select-bordered w-full rounded-xl"
+                                    defaultValue=""
                                     {...register("healthStatus", {
-                                        required: "Please mention the current health status"
+                                        required: "Please select the current health status",
                                     })}
-                                />
+                                >
+
+                                    <option value="" disabled>
+
+                                        Select Health Status
+
+                                    </option>
+
+                                    <option value="Healthy">
+
+                                        Healthy
+
+                                    </option>
+
+                                    <option value="Under Treatment">
+
+                                        Under Treatment
+
+                                    </option>
+
+                                    <option value="Injured">
+
+                                        Injured
+
+                                    </option>
+
+                                    <option value="Special Needs">
+
+                                        Special Needs
+
+                                    </option>
+
+                                    <option value="Recovering">
+
+                                        Recovering
+
+                                    </option>
+
+                                </select>
 
                                 {
                                     errors.healthStatus && (
+
                                         <p className="mt-1 text-sm text-red-500">
+
                                             {errors.healthStatus.message}
+
                                         </p>
+
                                     )
                                 }
+
                             </div>
 
                             {/* Vaccination Status */}
@@ -338,7 +400,7 @@ const AddPetPage = () => {
 
                                 <input
                                     type="text"
-                                    placeholder="Enter location"
+                                    placeholder="Enter location in plain text"
                                     className="input input-bordered w-full rounded-xl"
                                     {...register("location", {
                                         required: "Location is required"
@@ -378,30 +440,22 @@ const AddPetPage = () => {
                                 }
                             </div>
 
-                            {/* Owner Email */}
+                            {/* owner email */}
                             <div className="md:col-span-2">
 
                                 <label className="mb-2 block font-medium text-gray-700">
+
                                     Owner Email
+
                                 </label>
 
                                 <input
                                     type="email"
-                                    defaultValue="user@gmail.com"
+                                    value={user?.email || ""}
                                     readOnly
                                     className="input input-bordered w-full rounded-xl bg-gray-100"
-                                    {...register("ownerEmail", {
-                                        required: "Owner email is required"
-                                    })}
+                                    {...register("ownerEmail")}
                                 />
-
-                                {
-                                    errors.ownerEmail && (
-                                        <p className="mt-1 text-sm text-red-500">
-                                            {errors.ownerEmail.message}
-                                        </p>
-                                    )
-                                }
 
                             </div>
 

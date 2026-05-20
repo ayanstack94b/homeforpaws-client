@@ -1,12 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useForm } from "react-hook-form";
 
-import { motion, AnimatePresence } from "framer-motion";
+import {
+    AnimatePresence,
+    motion,
+} from "framer-motion";
 
-import { FaPaw } from "react-icons/fa";
+import {
+    FaPaw,
+} from "react-icons/fa";
 
 const PetEditModal = ({
     selectedPet,
@@ -18,11 +23,22 @@ const PetEditModal = ({
     const {
         register,
         handleSubmit,
+        reset,
         formState: { errors },
     } = useForm();
 
-    /* UPDATE PET */
+    /* load selected pet data */
+    useEffect(() => {
 
+        if (selectedPet) {
+
+            reset(selectedPet);
+
+        }
+
+    }, [selectedPet, reset]);
+
+    /* update pet */
     const onSubmit = async (data) => {
 
         const res = await fetch(
@@ -62,10 +78,7 @@ const PetEditModal = ({
 
         <>
 
-            {/* =========================
-                MODAL
-            ========================== */}
-
+            {/* modal */}
             <dialog
                 id="edit_pet_modal"
                 className="modal"
@@ -73,8 +86,8 @@ const PetEditModal = ({
 
                 <div className="modal-box max-w-4xl rounded-[35px] border border-blue-100 bg-white p-0 shadow-2xl">
 
-                    {/* Header */}
-                    <div className="border-b border-blue-100 bg-gradient-to-r from-blue-500 to-sky-500 px-8 py-6 text-white">
+                    {/* header */}
+                    <div className="bg-gradient-to-r from-blue-500 to-sky-500 px-8 py-6 text-white">
 
                         <h2 className="text-4xl font-bold">
                             Update Pet
@@ -86,7 +99,7 @@ const PetEditModal = ({
 
                     </div>
 
-                    {/* Form */}
+                    {/* form */}
                     <div className="max-h-[75vh] overflow-y-auto px-8 py-8">
 
                         <form
@@ -94,7 +107,7 @@ const PetEditModal = ({
                             className="grid grid-cols-1 gap-6 md:grid-cols-2"
                         >
 
-                            {/* Pet Name */}
+                            {/* pet name */}
                             <div>
 
                                 <label className="mb-2 block font-medium text-gray-700">
@@ -107,24 +120,26 @@ const PetEditModal = ({
                                     type="text"
                                     placeholder="Enter pet name"
                                     className="input input-bordered w-full rounded-2xl"
-                                    defaultValue={selectedPet?.petName}
                                     {...register("petName", {
-                                        required:
-                                            "Pet name is required",
+                                        required: "Pet name is required",
                                     })}
                                 />
 
                                 {
                                     errors.petName && (
+
                                         <p className="mt-1 text-sm text-red-500">
+
                                             {errors.petName.message}
+
                                         </p>
+
                                     )
                                 }
 
                             </div>
 
-                            {/* Species */}
+                            {/* species */}
                             <div>
 
                                 <label className="mb-2 block font-medium text-gray-700">
@@ -135,21 +150,34 @@ const PetEditModal = ({
 
                                 <select
                                     className="select select-bordered w-full rounded-2xl"
-                                    defaultValue={selectedPet?.species}
                                     {...register("species")}
                                 >
 
-                                    <option>Dog</option>
-                                    <option>Cat</option>
-                                    <option>Bird</option>
-                                    <option>Crow</option>
-                                    <option>Camel</option>
+                                    <option value="Dog">
+                                        Dog
+                                    </option>
+
+                                    <option value="Cat">
+                                        Cat
+                                    </option>
+
+                                    <option value="Bird">
+                                        Bird
+                                    </option>
+
+                                    <option value="Crow">
+                                        Crow
+                                    </option>
+
+                                    <option value="Camel">
+                                        Camel
+                                    </option>
 
                                 </select>
 
                             </div>
 
-                            {/* Breed */}
+                            {/* breed */}
                             <div>
 
                                 <label className="mb-2 block font-medium text-gray-700">
@@ -162,13 +190,12 @@ const PetEditModal = ({
                                     type="text"
                                     placeholder="Enter breed"
                                     className="input input-bordered w-full rounded-2xl"
-                                    defaultValue={selectedPet?.breed}
                                     {...register("breed")}
                                 />
 
                             </div>
 
-                            {/* Gender */}
+                            {/* gender */}
                             <div>
 
                                 <label className="mb-2 block font-medium text-gray-700">
@@ -179,18 +206,22 @@ const PetEditModal = ({
 
                                 <select
                                     className="select select-bordered w-full rounded-2xl"
-                                    defaultValue={selectedPet?.gender}
                                     {...register("gender")}
                                 >
 
-                                    <option>Male</option>
-                                    <option>Female</option>
+                                    <option value="Male">
+                                        Male
+                                    </option>
+
+                                    <option value="Female">
+                                        Female
+                                    </option>
 
                                 </select>
 
                             </div>
 
-                            {/* Image */}
+                            {/* image */}
                             <div className="md:col-span-2">
 
                                 <label className="mb-2 block font-medium text-gray-700">
@@ -203,13 +234,12 @@ const PetEditModal = ({
                                     type="text"
                                     placeholder="Enter image url"
                                     className="input input-bordered w-full rounded-2xl"
-                                    defaultValue={selectedPet?.image}
                                     {...register("image")}
                                 />
 
                             </div>
 
-                            {/* Location */}
+                            {/* location */}
                             <div>
 
                                 <label className="mb-2 block font-medium text-gray-700">
@@ -222,13 +252,12 @@ const PetEditModal = ({
                                     type="text"
                                     placeholder="Enter location"
                                     className="input input-bordered w-full rounded-2xl"
-                                    defaultValue={selectedPet?.location}
                                     {...register("location")}
                                 />
 
                             </div>
 
-                            {/* Adoption Fee */}
+                            {/* adoption fee */}
                             <div>
 
                                 <label className="mb-2 block font-medium text-gray-700">
@@ -241,13 +270,12 @@ const PetEditModal = ({
                                     type="number"
                                     placeholder="Enter fee"
                                     className="input input-bordered w-full rounded-2xl"
-                                    defaultValue={selectedPet?.adoptionFee}
                                     {...register("adoptionFee")}
                                 />
 
                             </div>
 
-                            {/* Health Status */}
+                            {/* health status */}
                             <div>
 
                                 <label className="mb-2 block font-medium text-gray-700">
@@ -256,17 +284,32 @@ const PetEditModal = ({
 
                                 </label>
 
-                                <input
-                                    type="text"
-                                    placeholder="Healthy / Under Treatment"
-                                    className="input input-bordered w-full rounded-2xl"
-                                    defaultValue={selectedPet?.healthStatus}
+                                <select
+                                    className="select select-bordered w-full rounded-2xl"
                                     {...register("healthStatus")}
-                                />
+                                >
+
+                                    <option value="Healthy">
+                                        Healthy
+                                    </option>
+
+                                    <option value="Under Treatment">
+                                        Under Treatment
+                                    </option>
+
+                                    <option value="Recovering">
+                                        Recovering
+                                    </option>
+
+                                    <option value="Special Needs">
+                                        Special Needs
+                                    </option>
+
+                                </select>
 
                             </div>
 
-                            {/* Vaccination */}
+                            {/* vaccination */}
                             <div>
 
                                 <label className="mb-2 block font-medium text-gray-700">
@@ -277,19 +320,26 @@ const PetEditModal = ({
 
                                 <select
                                     className="select select-bordered w-full rounded-2xl"
-                                    defaultValue={selectedPet?.vaccinationStatus}
                                     {...register("vaccinationStatus")}
                                 >
 
-                                    <option>Vaccinated</option>
-                                    <option>Not Vaccinated</option>
-                                    <option>Not Required</option>
+                                    <option value="Vaccinated">
+                                        Vaccinated
+                                    </option>
+
+                                    <option value="Not Vaccinated">
+                                        Not Vaccinated
+                                    </option>
+
+                                    <option value="Partially Vaccinated">
+                                        Partially Vaccinated
+                                    </option>
 
                                 </select>
 
                             </div>
 
-                            {/* Description */}
+                            {/* description */}
                             <div className="md:col-span-2">
 
                                 <label className="mb-2 block font-medium text-gray-700">
@@ -302,16 +352,14 @@ const PetEditModal = ({
                                     rows={5}
                                     placeholder="Write pet details"
                                     className="textarea textarea-bordered w-full rounded-2xl"
-                                    defaultValue={selectedPet?.description}
                                     {...register("description")}
                                 ></textarea>
 
                             </div>
 
-                            {/* Buttons */}
-                            <div className="mt-4 flex flex-wrap items-center gap-4 md:col-span-2">
+                            {/* buttons */}
+                            <div className="mt-4 flex flex-wrap gap-4 md:col-span-2">
 
-                                {/* Submit */}
                                 <button
                                     type="submit"
                                     className="btn h-14 rounded-2xl border-0 bg-blue-600 px-8 text-white hover:bg-blue-700"
@@ -321,7 +369,6 @@ const PetEditModal = ({
 
                                 </button>
 
-                                {/* Cancel */}
                                 <button
                                     type="button"
                                     onClick={() =>
@@ -346,10 +393,7 @@ const PetEditModal = ({
 
             </dialog>
 
-            {/* =========================
-                SUCCESS POPUP
-            ========================== */}
-
+            {/* success popup */}
             <AnimatePresence>
 
                 {
