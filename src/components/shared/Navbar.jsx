@@ -2,12 +2,23 @@
 import Link from 'next/link';
 import { FaPaw } from "react-icons/fa";
 import { motion } from "framer-motion";
+import { authClient } from '@/lib/auth-client';
+import Image from 'next/image';
 
 const Navbar = () => {
 
-    
+    const {
+        data: session,
+        isPending,
+        error
+    } = authClient.useSession();
 
+    console.log(session);
+    console.log(isPending);
+    console.log(error);
 
+    const user = session?.user
+    console.log(user);
     const links = (
         <>
             <li>
@@ -29,7 +40,7 @@ const Navbar = () => {
                     Dashboard
                 </Link>
             </li>
-          
+
         </>
     );
 
@@ -107,21 +118,200 @@ const Navbar = () => {
 
                 </div>
 
-                <div className="navbar-end gap-2">
+                <div className="navbar-end gap-3">
 
-                    <Link
-                        href="/login"
-                        className="hidden sm:block text-sm font-semibold text-gray-700 hover:text-blue-600 transition"
-                    >
-                        Login
-                    </Link>
+                    {
+                        user ? (
 
-                    <Link
-                        href="/register"
-                        className="btn h-10 min-h-0 rounded-xl border-0 bg-blue-600 px-4 text-sm text-white hover:bg-blue-700 md:px-6"
-                    >
-                        Register
-                    </Link>
+                            <>
+
+                                {/* Desktop User Section */}
+                                <div className="hidden items-center gap-4 lg:flex">
+
+                                    {/* User Info */}
+                                    <div className="text-right">
+
+                                        <h2 className="text-sm font-bold text-gray-800">
+
+                                            {user?.name || "User"}
+
+                                        </h2>
+
+                                        <p className="max-w-45 truncate text-xs text-gray-500">
+
+                                            {user?.email}
+
+                                        </p>
+
+                                    </div>
+
+                                    {/* Avatar */}
+                                    <Link
+                                        href="/dashboard/user-profile"
+                                        className="avatar transition hover:scale-105"
+                                    >
+
+                                        <div className="h-12 w-12 rounded-full border-2 border-blue-200 shadow-md">
+
+                                            <Image
+                                                src={
+                                                    user?.image ||
+                                                    "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400&auto=format&fit=crop"
+                                                }
+                                                alt="Profile"
+                                                width={48}
+                                                height={48}
+                                                className="object-cover"
+                                            />
+
+                                        </div>
+
+                                    </Link>
+
+                                    {/* Dashboard
+                                    <Link
+                                        href="/dashboard"
+                                        className="btn h-11 min-h-0 rounded-2xl border-0 bg-blue-100 px-5 text-sm font-semibold text-blue-600 hover:bg-blue-200"
+                                    >
+
+                                        Dashboard
+
+                                    </Link> */}
+
+                                    {/* Logout */}
+                                    <button
+                                        className="btn h-11 min-h-0 rounded-2xl border-0 bg-red-500 px-5 text-sm text-white hover:bg-red-600"
+                                    >
+
+                                        Logout
+
+                                    </button>
+
+                                </div>
+
+                                {/* Mobile / Tablet Dropdown */}
+                                <div className="dropdown dropdown-end lg:hidden">
+
+                                    {/* Avatar */}
+                                    <div
+                                        tabIndex={0}
+                                        role="button"
+                                        className="avatar cursor-pointer transition hover:scale-105"
+                                    >
+
+                                        <div className="h-12 w-12 rounded-full border-2 border-blue-200 shadow-md">
+
+                                            <Image
+                                                src={
+                                                    user?.image ||
+                                                    "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400&auto=format&fit=crop"
+                                                }
+                                                alt="Profile"
+                                                width={48}
+                                                height={48}
+                                                className="object-cover"
+                                            />
+
+                                        </div>
+
+                                    </div>
+
+                                    {/* Dropdown Menu */}
+                                    <ul
+                                        tabIndex={0}
+                                        className="menu dropdown-content z-[999] mt-4 w-64 rounded-3xl border border-blue-100 bg-white p-3 shadow-2xl"
+                                    >
+
+                                        {/* User Info */}
+                                        <div className="mb-2 rounded-2xl bg-blue-50 p-4">
+
+                                            <h2 className="truncate text-lg font-bold text-gray-800">
+
+                                                {user?.name || "User"}
+
+                                            </h2>
+
+                                            <p className="truncate text-sm text-gray-500">
+
+                                                {user?.email}
+
+                                            </p>
+
+                                        </div>
+
+                                        {/* Dashboard */}
+                                        <li>
+
+                                            <Link
+                                                href="/dashboard"
+                                                className="rounded-xl py-3 font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-600"
+                                            >
+
+                                                Dashboard
+
+                                            </Link>
+
+                                        </li>
+
+                                        {/* Profile */}
+                                        <li>
+
+                                            <Link
+                                                href="/dashboard/user-profile"
+                                                className="rounded-xl py-3 font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-600"
+                                            >
+
+                                                My Profile
+
+                                            </Link>
+
+                                        </li>
+
+                                        {/* Logout */}
+                                        <li className="mt-2">
+
+                                            <button
+                                                className="rounded-xl bg-red-50 py-3 font-medium text-red-500 hover:bg-red-100"
+                                            >
+
+                                                Logout
+
+                                            </button>
+
+                                        </li>
+
+                                    </ul>
+
+                                </div>
+
+                            </>
+
+                        ) : (
+
+                            <>
+
+                                <Link
+                                    href="/login"
+                                    className="hidden text-sm font-semibold text-gray-700 transition hover:text-blue-600 sm:block"
+                                >
+
+                                    Login
+
+                                </Link>
+
+                                <Link
+                                    href="/register"
+                                    className="btn h-11 min-h-0 rounded-2xl border-0 bg-blue-600 px-5 text-sm text-white hover:bg-blue-700 md:px-7"
+                                >
+
+                                    Register
+
+                                </Link>
+
+                            </>
+
+                        )
+                    }
 
                 </div>
 
