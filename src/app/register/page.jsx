@@ -70,7 +70,7 @@ const RegisterPage = () => {
 
     return (
 
-        <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100 py-10">
+        <div className="relative min-h-screen overflow-hidden bg-linear-to-br from-slate-50 via-blue-50 to-slate-100 py-10">
 
             {/* Background Blur */}
             <div className="absolute inset-0 -z-10">

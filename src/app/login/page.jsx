@@ -11,6 +11,8 @@ import {
     FaPaw,
 } from "react-icons/fa";
 import { authClient } from "@/lib/auth-client";
+import Swal from "sweetalert2";
+import { redirect } from "next/navigation";
 
 const LoginPage = () => {
 
@@ -20,10 +22,48 @@ const LoginPage = () => {
         formState: { errors },
     } = useForm();
 
-    const onSubmit = (formData) => {
-        console.log(formData);
-       
-    };
+  const onSubmit = async (formData) => {
+  
+          delete formData.confirmPassword;
+  
+          const { data, error } =
+              await authClient.signIn.email({
+  
+                  email: formData.email,
+                  password: formData.password,
+  
+              });
+  
+          console.log({ data, error });
+  
+  
+          if (data) {
+  
+              Swal.fire({
+                  title: "Logged in Successfully",
+                  text: "Welcome back to HomeForPaws",
+                  icon: "success",
+                  confirmButtonColor: "#2563eb",
+                  background: "#ffffff",
+              });
+  
+              redirect("/");
+  
+          }
+  
+  
+          if (error) {
+  
+              Swal.fire({
+                  title: "Login Failed",
+                  text: error.message,
+                  icon: "error",
+                  confirmButtonColor: "#dc2626",
+                  background: "#ffffff",
+              });
+  
+          }
+      };
 
     return (
 
