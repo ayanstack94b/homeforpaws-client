@@ -14,19 +14,7 @@ import {
 
 const UserProfilePage = () => {
 
-
-    const user = {
-        name: "",
-        email: "",
-        phone: "",
-        location: "",
-        photo: "",
-        bio: "",
-        totalListings: 12,
-        successfulAdoptions: 8,
-        pendingRequests: 5,
-        activeListings: 3,
-    };
+    const user = {name: "",email: "",phone: "",location: "",photo: "",bio: "",totalListings: 12,successfulAdoptions: 8,pendingRequests: 5,activeListings: 3,};
 
     return (
 
@@ -41,7 +29,7 @@ const UserProfilePage = () => {
             >
 
                 <h1 className="text-3xl font-bold text-gray-800">
-                    User Profile
+                    My Profile
                 </h1>
 
                 <p className="mt-2 text-gray-600">
@@ -59,7 +47,7 @@ const UserProfilePage = () => {
             >
 
                 {/* Top Banner */}
-                <div className="relative h-52 bg-gradient-to-r from-blue-500 via-blue-600 to-sky-500">
+                <div className="relative h-52 bg-linear-to-r from-blue-500 via-blue-600 to-sky-500">
 
 
                     <motion.div
