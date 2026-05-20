@@ -1,25 +1,76 @@
 "use client";
 
 import Link from "next/link";
+
 import { useForm } from "react-hook-form";
+
 import { motion } from "framer-motion";
-import { FaPaw } from "react-icons/fa";
+
+import {
+    FaPaw,
+    FaGoogle,
+} from "react-icons/fa";
+import { authClient } from "@/lib/auth-client";
+import { redirect } from "next/navigation";
+import Swal from "sweetalert2";
 
 const RegisterPage = () => {
 
     const {
         register,
         handleSubmit,
+        watch,
         formState: { errors },
     } = useForm();
 
-    const onSubmit = (data) => {
-        console.log(data);
+    const onSubmit = async (formData) => {
+
+        delete formData.confirmPassword;
+
+        const { data, error } =
+            await authClient.signUp.email({
+
+                email: formData.email,
+                password: formData.password,
+                name: formData.name,
+                image: formData.photo,
+
+            });
+
+        console.log({ data, error });
+
+
+        if (data) {
+
+            Swal.fire({
+                title: "Account Created!",
+                text: "Welcome to HomeForPaws",
+                icon: "success",
+                confirmButtonColor: "#2563eb",
+                background: "#ffffff",
+            });
+
+            redirect("/");
+
+        }
+
+
+        if (error) {
+
+            Swal.fire({
+                title: "Registration Failed",
+                text: error.message,
+                icon: "error",
+                confirmButtonColor: "#dc2626",
+                background: "#ffffff",
+            });
+
+        }
     };
 
     return (
 
-        <div className="relative min-h-screen overflow-hidden bg-slate-50 py-10">
+        <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100 py-10">
 
             {/* Background Blur */}
             <div className="absolute inset-0 -z-10">
@@ -30,239 +81,381 @@ const RegisterPage = () => {
 
             </div>
 
-            <div className="w-11/12 max-w-6xl mx-auto">
+            <div className="mx-auto grid min-h-[90vh] w-11/12 max-w-7xl items-center gap-12 lg:grid-cols-2">
 
-                <div className="grid items-center gap-10 lg:grid-cols-2">
+                {/* LEFT SIDE */}
+                <motion.div
+                    initial={{
+                        opacity: 0,
+                        x: -50,
+                    }}
+                    animate={{
+                        opacity: 1,
+                        x: 0,
+                    }}
+                    transition={{
+                        duration: 0.6,
+                    }}
+                    className="hidden lg:block"
+                >
 
-                    {/* LEFT CONTENT */}
-                    <motion.div
-                        initial={{ opacity: 0, x: -40 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.6 }}
-                        className="hidden lg:block"
-                    >
+                    <div className="max-w-xl">
 
-                        <div className="max-w-lg">
+                        {/* Logo */}
+                        <div className="flex items-center gap-4">
 
-                            <div className="flex items-center gap-3">
+                            <motion.div
+                                animate={{
+                                    rotate: [0, -10, 10, -10, 0],
+                                }}
+                                transition={{
+                                    duration: 2,
+                                    repeat: Infinity,
+                                    repeatDelay: 3,
+                                }}
+                                className="text-5xl text-blue-600"
+                            >
 
-                                <motion.div
-                                    animate={{
-                                        rotate: [0, -10, 10, -10, 0],
-                                    }}
-                                    transition={{
-                                        duration: 2,
-                                        repeat: Infinity,
-                                        repeatDelay: 3,
-                                    }}
-                                    className="text-4xl text-blue-600"
-                                >
-                                    <FaPaw />
-                                </motion.div>
+                                <FaPaw />
 
-                                <h1 className="text-3xl font-bold text-blue-600">
-                                    HomeForPaws
-                                </h1>
+                            </motion.div>
 
-                            </div>
+                            <h1 className="text-4xl font-bold text-blue-600">
 
-                            <h2 className="mt-10 text-5xl font-bold leading-tight text-gray-800">
+                                HomeForPaws
 
-                                Create An Account
-                                <span className="text-blue-600">
-                                    {" "}For A Better Pet Journey
-                                </span>
+                            </h1>
+
+                        </div>
+
+                        {/* Heading */}
+                        <h2 className="mt-12 text-6xl font-bold leading-tight text-gray-800">
+
+                            Adopt.
+                            Rescue.
+                            <span className="text-blue-600">
+                                {" "}Love.
+                            </span>
+
+                        </h2>
+
+                        {/* Description */}
+                        <p className="mt-8 text-lg leading-9 text-gray-600">
+
+                            Create your account and become part of a growing
+                            pet adoption community helping animals find
+                            caring and loving homes.
+
+                        </p>
+
+                        {/* Cards */}
+                        <div className="mt-12 space-y-5">
+
+                            {
+                                [
+                                    "List pets for adoption easily",
+                                    "Manage your pet listings securely",
+                                    "Connect with pet loving families",
+                                ].map((item, index) => (
+
+                                    <motion.div
+                                        key={index}
+                                        initial={{
+                                            opacity: 0,
+                                            x: -30,
+                                        }}
+                                        animate={{
+                                            opacity: 1,
+                                            x: 0,
+                                        }}
+                                        transition={{
+                                            duration: 0.4,
+                                            delay: index * 0.2,
+                                        }}
+                                        className="flex items-center gap-4 rounded-2xl bg-white p-5 shadow-sm"
+                                    >
+
+                                        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-xl text-blue-600">
+
+                                            <FaPaw />
+
+                                        </div>
+
+                                        <p className="text-gray-700">
+
+                                            {item}
+
+                                        </p>
+
+                                    </motion.div>
+
+                                ))
+                            }
+
+                        </div>
+
+                    </div>
+
+                </motion.div>
+
+                {/* RIGHT SIDE */}
+                <motion.div
+                    initial={{
+                        opacity: 0,
+                        y: 40,
+                    }}
+                    animate={{
+                        opacity: 1,
+                        y: 0,
+                    }}
+                    transition={{
+                        duration: 0.6,
+                    }}
+                >
+
+                    <div className="rounded-[35px] border border-blue-100 bg-white p-7 shadow-2xl md:p-10">
+
+                        {/* Heading */}
+                        <div className="mb-8 text-center">
+
+                            <h2 className="text-4xl font-bold text-gray-800">
+
+                                Create Account
 
                             </h2>
 
-                            <p className="mt-6 leading-8 text-gray-600">
+                            <p className="mt-3 text-gray-500">
 
-                                Join our adoption community and help pets find
-                                safe, loving, and caring homes.
+                                Register to continue your pet adoption journey
 
                             </p>
 
                         </div>
 
-                    </motion.div>
+                        {/* Form */}
+                        <form
+                            onSubmit={handleSubmit(onSubmit)}
+                            className="space-y-5"
+                        >
 
-                    {/* FORM */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 40 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
-                    >
+                            {/* Name */}
+                            <div>
 
-                        <div className="rounded-3xl border border-gray-200 bg-white p-6 shadow-xl md:p-10">
+                                <label className="mb-2 block font-medium text-gray-700">
 
-                            <div className="mb-8 text-center">
+                                    Full Name
 
-                                <h2 className="text-3xl font-bold text-gray-800">
-                                    Register
-                                </h2>
+                                </label>
 
-                                <p className="mt-2 text-gray-500">
-                                    Create your HomeForPaws account
+                                <input
+                                    type="text"
+                                    placeholder="Enter your full name"
+                                    className="input input-bordered w-full rounded-2xl"
+                                    {...register("name", {
+                                        required:
+                                            "Name is required",
+                                    })}
+                                />
+
+                                {
+                                    errors.name && (
+                                        <p className="mt-1 text-sm text-red-500">
+                                            {errors.name.message}
+                                        </p>
+                                    )
+                                }
+
+                            </div>
+
+                            {/* Photo URL */}
+                            <div>
+
+                                <label className="mb-2 block font-medium text-gray-700">
+
+                                    Photo URL
+
+                                </label>
+
+                                <input
+                                    type="text"
+                                    placeholder="Paste profile image url"
+                                    className="input input-bordered w-full rounded-2xl"
+                                    {...register("photo")}
+                                />
+
+                            </div>
+
+                            {/* Email */}
+                            <div>
+
+                                <label className="mb-2 block font-medium text-gray-700">
+
+                                    Email
+
+                                </label>
+
+                                <input
+                                    type="email"
+                                    placeholder="Enter your email"
+                                    className="input input-bordered w-full rounded-2xl"
+                                    {...register("email", {
+                                        required:
+                                            "Email is required",
+                                    })}
+                                />
+
+                                {
+                                    errors.email && (
+                                        <p className="mt-1 text-sm text-red-500">
+                                            {errors.email.message}
+                                        </p>
+                                    )
+                                }
+
+                            </div>
+
+                            {/* Password */}
+                            <div>
+
+                                <label className="mb-2 block font-medium text-gray-700">
+
+                                    Password
+
+                                </label>
+
+                                <input
+                                    type="password"
+                                    placeholder="Enter your password"
+                                    className="input input-bordered w-full rounded-2xl"
+                                    {...register("password", {
+                                        required:
+                                            "Password is required",
+
+                                        minLength: {
+                                            value: 6,
+                                            message:
+                                                "Password must be at least 6 characters",
+                                        },
+
+                                        pattern: {
+                                            value:
+                                                /^(?=.*[a-z])(?=.*[A-Z]).+$/,
+                                            message:
+                                                "Password must contain uppercase and lowercase letters",
+                                        },
+                                    })}
+                                />
+
+                                {
+                                    errors.password && (
+                                        <p className="mt-1 text-sm text-red-500">
+                                            {errors.password.message}
+                                        </p>
+                                    )
+                                }
+
+                                <p className="mt-2 text-sm text-gray-500">
+
+                                    Must contain uppercase, lowercase
+                                    and minimum 6 characters.
+
                                 </p>
 
                             </div>
 
-                            <form
-                                onSubmit={handleSubmit(onSubmit)}
-                                className="space-y-5"
-                            >
+                            {/* Confirm Password */}
+                            <div>
 
-                                {/* Name */}
-                                <div>
+                                <label className="mb-2 block font-medium text-gray-700">
 
-                                    <label className="mb-2 block font-medium text-gray-700">
-                                        Full Name
-                                    </label>
+                                    Confirm Password
 
-                                    <input
-                                        type="text"
-                                        placeholder="Enter your full name"
-                                        className="input input-bordered w-full rounded-xl"
-                                        {...register("name", {
-                                            required: "Name is required"
-                                        })}
-                                    />
+                                </label>
 
-                                    {
-                                        errors.name && (
-                                            <p className="mt-1 text-sm text-red-500">
-                                                {errors.name.message}
-                                            </p>
-                                        )
-                                    }
+                                <input
+                                    type="password"
+                                    placeholder="Confirm your password"
+                                    className="input input-bordered w-full rounded-2xl"
+                                    {...register("confirmPassword", {
+                                        required:
+                                            "Confirm password is required",
 
-                                </div>
+                                        validate: (value) =>
+                                            value === watch("password") ||
+                                            "Passwords do not match",
+                                    })}
+                                />
 
-                                {/* Photo URL */}
-                                <div>
-
-                                    <label className="mb-2 block font-medium text-gray-700">
-                                        Photo URL
-                                    </label>
-
-                                    <input
-                                        type="text"
-                                        placeholder="Paste your profile photo url"
-                                        className="input input-bordered w-full rounded-xl"
-                                        {...register("photo")}
-                                    />
-
-                                </div>
-
-                                {/* Email */}
-                                <div>
-
-                                    <label className="mb-2 block font-medium text-gray-700">
-                                        Email
-                                    </label>
-
-                                    <input
-                                        type="email"
-                                        placeholder="Enter your email"
-                                        className="input input-bordered w-full rounded-xl"
-                                        {...register("email", {
-                                            required: "Email is required"
-                                        })}
-                                    />
-
-                                    {
-                                        errors.email && (
-                                            <p className="mt-1 text-sm text-red-500">
-                                                {errors.email.message}
-                                            </p>
-                                        )
-                                    }
-
-                                </div>
-
-                                {/* Password */}
-                                <div>
-
-                                    <label className="mb-2 block font-medium text-gray-700">
-                                        Password
-                                    </label>
-
-                                    <input
-                                        type="password"
-                                        placeholder="Enter your password"
-                                        className="input input-bordered w-full rounded-xl"
-                                        {...register("password", {
-                                            required: "Password is required",
-                                            minLength: {
-                                                value: 6,
-                                                message: "Password must be at least 6 characters"
-                                            }
-                                        })}
-                                    />
-
-                                    {
-                                        errors.password && (
-                                            <p className="mt-1 text-sm text-red-500">
-                                                {errors.password.message}
-                                            </p>
-                                        )
-                                    }
-
-                                </div>
-
-                                {/* Register Button */}
-                                <button
-                                    type="submit"
-                                    className="btn mt-3 h-12 w-full rounded-xl border-0 bg-blue-600 text-white hover:bg-blue-700"
-                                >
-                                    Create Account
-                                </button>
-
-                            </form>
-
-                            {/* Divider */}
-                            <div className="my-6 flex items-center gap-4">
-
-                                <div className="h-px flex-1 bg-gray-200"></div>
-
-                                <span className="text-sm text-gray-400">
-                                    OR
-                                </span>
-
-                                <div className="h-px flex-1 bg-gray-200"></div>
+                                {
+                                    errors.confirmPassword && (
+                                        <p className="mt-1 text-sm text-red-500">
+                                            {errors.confirmPassword.message}
+                                        </p>
+                                    )
+                                }
 
                             </div>
 
-                            {/* Google */}
-                            <button className="btn h-12 w-full rounded-xl border border-gray-200 bg-white text-gray-700 hover:bg-gray-50">
+                            {/* Register Button */}
+                            <button
+                                type="submit"
+                                className="btn mt-3 h-14 w-full rounded-2xl border-0 bg-blue-600 text-white hover:bg-blue-700"
+                            >
 
-                                Continue With Google
+                                Create Account
 
                             </button>
 
-                            {/* Login Redirect */}
-                            <p className="mt-6 text-center text-sm text-gray-600">
+                        </form>
 
-                                Already have an account?
+                        {/* Divider */}
+                        <div className="my-7 flex items-center gap-4">
 
-                                <Link
-                                    href="/login"
-                                    className="ml-1 font-semibold text-blue-600 hover:underline"
-                                >
-                                    Login
-                                </Link>
+                            <div className="h-px flex-1 bg-gray-200"></div>
 
-                            </p>
+                            <span className="text-sm text-gray-400">
+                                OR
+                            </span>
+
+                            <div className="h-px flex-1 bg-gray-200"></div>
 
                         </div>
 
-                    </motion.div>
+                        {/* Google */}
+                        <button
+                            className="btn h-14 w-full rounded-2xl border border-gray-200 bg-white text-gray-700 hover:bg-gray-50"
+                        >
 
-                </div>
+                            <FaGoogle />
+
+                            Continue With Google
+
+                        </button>
+
+                        {/* Login Redirect */}
+                        <p className="mt-8 text-center text-sm text-gray-600">
+
+                            Already have an account?
+
+                            <Link
+                                href="/login"
+                                className="ml-1 font-semibold text-blue-600 hover:underline"
+                            >
+
+                                Login
+
+                            </Link>
+
+                        </p>
+
+                    </div>
+
+                </motion.div>
 
             </div>
 
         </div>
+
     );
 };
 
