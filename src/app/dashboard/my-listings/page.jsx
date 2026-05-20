@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import PuppySpinner from "@/components/shared/PuppySpinner";
 import DashboardPetCard from "@/components/dashboard/DashboardPetCard";
 import PetEditModal from "../PetEditModal";
+import PetViewModal from "../PetViewModal";
 
 
 const MyListingsPage = () => {
@@ -21,6 +22,8 @@ const MyListingsPage = () => {
 
     const [selectedPet, setSelectedPet] = useState(null);
 
+    const [selectedViewPet, setSelectedViewPet] = useState(null);
+
     useEffect(() => {
 
         fetch("http://localhost:5000/pet")
@@ -34,6 +37,22 @@ const MyListingsPage = () => {
             });
 
     }, []);
+
+
+    /*OPEN View MODAL*/
+    const openViewModal = (pet) => {
+
+        setSelectedViewPet(pet);
+
+        setTimeout(() => {
+
+            document
+                .getElementById("view_pet_modal")
+                ?.showModal();
+
+        }, 0);
+
+    };
 
     /*OPEN EDIT MODAL*/
 
@@ -149,6 +168,7 @@ const MyListingsPage = () => {
                                 pet={pet}
                                 openDeleteModal={openDeleteModal}
                                 openEditModal={openEditModal}
+                                openViewModal={openViewModal}
                             />
 
                         </motion.div>
@@ -234,10 +254,13 @@ const MyListingsPage = () => {
                 )
             }
 
-            {/*EDIT MODAL*/}
+            {/*Edit and view modal*/}
 
             <PetEditModal
                 selectedPet={selectedPet}
+            />
+            <PetViewModal
+                pet={selectedViewPet}
             />
 
         </div>

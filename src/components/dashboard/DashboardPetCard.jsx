@@ -13,7 +13,7 @@ import {
 
 import { MdDelete } from "react-icons/md";
 
-const DashboardPetCard = ({ pet, openDeleteModal, openEditModal}) => {
+const DashboardPetCard = ({ pet, openDeleteModal, openEditModal, openViewModal }) => {
 
     const { _id, petName, species, breed, image, location, adoptionFee, healthStatus } = pet;
 
@@ -96,16 +96,16 @@ const DashboardPetCard = ({ pet, openDeleteModal, openEditModal}) => {
                     <div className="mt-8 flex flex-wrap items-center gap-3">
 
                         {/* View */}
-                        <Link
-                            href={`/pet/${_id}`}
-                            className="btn rounded-xl border-0 bg-blue-600 text-white hover:bg-blue-700"
+                        <button
+                            onClick={() => openViewModal(pet)}
+                            className="btn rounded-xl border-0 bg-sky-500 text-white hover:bg-sky-600"
                         >
 
                             <FaEye />
 
                             View
 
-                        </Link>
+                        </button>
 
                         {/* Edit */}
                         <button
