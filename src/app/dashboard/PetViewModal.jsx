@@ -1,7 +1,7 @@
 "use client";
 
+import { authClient } from "@/lib/auth-client";
 import Image from "next/image";
-import { useState, useEffect } from "react";
 
 import {
     FaDog,
@@ -9,17 +9,16 @@ import {
     FaMars,
     FaVenus,
 } from "react-icons/fa";
+import AdoptionForm from "./AdoptionForm";
 
-const PetViewModal = ({ pet }) => {
+const PetViewModal = ({ pet, showAdoptForm, setShowAdoptForm }) => {
 
-    const [showAdoptForm, setShowAdoptForm] =
-        useState(false);
+    const {
+        data: session,
+    } = authClient.useSession();
 
-    useEffect(() => {
+    const user = session?.user;
 
-        setShowAdoptForm(false);
-
-    }, [pet]);
 
     if (!pet) return null;
 
@@ -64,7 +63,7 @@ const PetViewModal = ({ pet }) => {
                     </div>
 
                     {/* right side */}
-                    <div className="p-7">
+                    <div className="flex min-h-[500px] flex-col justify-between p-7">
 
                         {
                             !showAdoptForm ? (
@@ -155,13 +154,13 @@ const PetViewModal = ({ pet }) => {
                                         >
 
                                             <button
+                                                onClick={() => setShowAdoptForm(false)}
                                                 className="btn h-12 w-full rounded-2xl border-0 bg-gray-100 text-gray-700 hover:bg-gray-200"
                                             >
 
                                                 Close
 
                                             </button>
-
                                         </form>
 
                                         <button
@@ -180,18 +179,19 @@ const PetViewModal = ({ pet }) => {
 
                             ) : (
 
-                                <div className="flex h-full flex-col justify-center">
+                                <div className="flex flex-1 flex-col justify-center">
 
                                     <h2 className="mb-4 text-3xl font-bold text-gray-800">
                                         Adoption Request
                                     </h2>
 
-                                    <p className="text-gray-600">
-                                        Adoption form will appear here.
-                                    </p>
+                                        <AdoptionForm
+                                            pet={pet}
+                                            setShowAdoptForm={setShowAdoptForm}
+                                        />
 
                                     <button
-                                        onClick={() => setShowAdoptForm(false)}
+                                            onClick={() => setShowAdoptForm(false)}
                                         className="btn mt-8 rounded-2xl border-0 bg-gray-100 text-gray-700 hover:bg-gray-200"
                                     >
 

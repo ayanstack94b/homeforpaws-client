@@ -23,7 +23,7 @@ const MyListingsPage = () => {
     const [selectedPet, setSelectedPet] = useState(null);
 
     const [selectedViewPet, setSelectedViewPet] = useState(null);
-
+    const [showAdoptForm, setShowAdoptForm] = useState(false);
     useEffect(() => {
 
         fetch("http://localhost:5000/pet")
@@ -41,6 +41,8 @@ const MyListingsPage = () => {
 
     /*OPEN View MODAL*/
     const openViewModal = (pet) => {
+
+        setShowAdoptForm(false);
 
         setSelectedViewPet(pet);
 
@@ -261,6 +263,8 @@ const MyListingsPage = () => {
             />
             <PetViewModal
                 pet={selectedViewPet}
+                showAdoptForm={showAdoptForm}
+                setShowAdoptForm={setShowAdoptForm}
             />
 
         </div>
