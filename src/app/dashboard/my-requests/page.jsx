@@ -312,7 +312,7 @@ const MyRequestsPage = () => {
                                     <div className="mt-8 flex flex-wrap gap-4">
 
                                         {/* view pet */}
-                                        <Link
+                                        {/* <Link
                                             href={`/pets/${request.petId}`}
                                             className="btn rounded-2xl border-0 bg-blue-600 text-white hover:bg-blue-700"
                                         >
@@ -321,7 +321,7 @@ const MyRequestsPage = () => {
 
                                             View Pet
 
-                                        </Link>
+                                        </Link> */}
 
                                         {/* cancel request */}
                                         <button

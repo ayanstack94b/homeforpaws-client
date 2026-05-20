@@ -1,26 +1,45 @@
 "use client";
 
-import { motion } from "framer-motion";
-import Link from "next/link";
+import { authClient } from "@/lib/auth-client";
 
+import { motion } from "framer-motion";
+
+import Link from "next/link";
 
 import {
     FaEnvelope,
-    FaMapMarkerAlt,
-    FaPhoneAlt,
     FaPaw,
     FaEdit,
+    FaSyringe,
+    FaHeart,
 } from "react-icons/fa";
+
+import { FaShieldDog } from "react-icons/fa6";
 
 const UserProfilePage = () => {
 
-    const user = {name: "",email: "",phone: "",location: "",photo: "",bio: "",totalListings: 12,successfulAdoptions: 8,pendingRequests: 5,activeListings: 3,};
+    const {
+        data: session,
+    } = authClient.useSession();
+
+    const user = {
+
+        name:
+            session?.user?.name || "",
+
+        email:
+            session?.user?.email || "",
+
+        image:
+            session?.user?.image || "",
+
+    };
 
     return (
 
         <div className="min-h-[70vh]">
 
-            {/* Heading */}
+            {/* heading */}
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -38,7 +57,7 @@ const UserProfilePage = () => {
 
             </motion.div>
 
-            {/* Profile Card */}
+            {/* profile card */}
             <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -46,9 +65,8 @@ const UserProfilePage = () => {
                 className="overflow-hidden rounded-[35px] border border-blue-100 bg-white shadow-sm"
             >
 
-                {/* Top Banner */}
+                {/* top banner */}
                 <div className="relative h-52 bg-linear-to-r from-blue-500 via-blue-600 to-sky-500">
-
 
                     <motion.div
                         animate={{
@@ -61,24 +79,27 @@ const UserProfilePage = () => {
                         }}
                         className="absolute right-8 top-8 text-6xl text-white/20"
                     >
+
                         <FaPaw />
+
                     </motion.div>
 
                 </div>
 
-                {/* Content */}
-                <div className="relative px-6 pb-8 md:px-10">
+                {/* content */}
+                <div className="relative px-6 pb-10 md:px-10">
 
-                    {/* Profile Image */}
+                    {/* profile image */}
                     <motion.div
                         initial={{ scale: 0.8 }}
                         animate={{ scale: 1 }}
                         transition={{ duration: 0.4 }}
-                        className="-mt-20 flex justify-center md:justify-start"
+                        className="-mt-20 flex justify-center lg:justify-start"
                     >
+
                         <img
                             src={
-                                user.photo ||
+                                user.image ||
                                 "https://cdn-icons-png.flaticon.com/512/149/149071.png"
                             }
                             alt="User"
@@ -87,37 +108,64 @@ const UserProfilePage = () => {
 
                     </motion.div>
 
-                    {/* User Info */}
-                    <div className="mt-6 flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
+                    {/* main content */}
+                    <div className="mt-10 grid gap-12 lg:grid-cols-[1.2fr_.8fr] lg:items-center">
 
-                        {/* Left */}
-                        <div>
+                        {/* left side */}
+                        <div className="max-w-3xl">
 
-                            <h2 className="text-4xl font-bold text-gray-800">
+                            <h2 className="text-center text-4xl font-black text-gray-800 lg:text-left">
 
                                 {user.name || "Guest User"}
 
                             </h2>
 
-                            <p className="mt-2 text-lg text-blue-600">
+                            <p className="mt-3 text-center text-lg text-blue-600 lg:text-left">
 
                                 Pet Adoption Enthusiast
 
                             </p>
 
-                            <p className="mt-5 max-w-2xl leading-8 text-gray-600">
+                            <p className="mt-6 text-center leading-8 text-gray-600 lg:text-left">
 
-                                {
-                                    user.bio ||
-                                    "Passionate about helping pets find loving homes and building a caring adoption community."
-                                }
+                                Passionate about helping pets find loving homes and building a caring adoption community.
 
                             </p>
 
-                            {/* Edit Button */}
-                            <Link href='/dashboard/user-profile/edit-user'>
+                            {/* email card */}
+                            <div className="mt-8 rounded-3xl border border-blue-100 bg-blue-50 p-5">
+
+                                <div className="flex items-center gap-4">
+
+                                    <div className="rounded-2xl bg-white p-4 shadow-sm">
+
+                                        <FaEnvelope className="text-2xl text-blue-600" />
+
+                                    </div>
+
+                                    <div>
+
+                                        <p className="text-sm text-gray-500">
+                                            Email Address
+                                        </p>
+
+                                        <h3 className="mt-1 text-lg font-semibold text-gray-800">
+
+                                            {user.email || "No email added"}
+
+                                        </h3>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            {/* edit button */}
+                            <Link href="/dashboard/user-profile/edit-user">
+
                                 <button
-                                    className="btn mt-6 rounded-2xl border-0 bg-blue-600 px-6 text-white hover:bg-blue-700"
+                                    className="btn mt-8 h-12 rounded-2xl border-0 bg-blue-600 px-8 text-white hover:bg-blue-700"
                                 >
 
                                     <FaEdit />
@@ -125,94 +173,92 @@ const UserProfilePage = () => {
                                     Edit Profile
 
                                 </button>
+
                             </Link>
-                            {/* Contact Info */}
-                            <div className="mt-8 space-y-4">
-
-                                <div className="flex items-center gap-3 text-gray-600">
-
-                                    <FaEnvelope className="text-blue-600" />
-
-                                    <span>
-                                        {user.email || "No email added"}
-                                    </span>
-
-                                </div>
-
-                                <div className="flex items-center gap-3 text-gray-600">
-
-                                    <FaPhoneAlt className="text-blue-600" />
-
-                                    <span>
-                                        {user.phone || "No phone number"}
-                                    </span>
-
-                                </div>
-
-                                <div className="flex items-center gap-3 text-gray-600">
-
-                                    <FaMapMarkerAlt className="text-blue-600" />
-
-                                    <span>
-                                        {user.location || "Unknown location"}
-                                    </span>
-
-                                </div>
-
-                            </div>
 
                         </div>
 
-                        {/* Right Stats */}
-                        <div className="grid grid-cols-2 gap-5">
+                        {/* right side */}
+                        <div className="relative hidden h-95 lg:flex items-center justify-center">
 
-                            <div className="rounded-3xl bg-blue-50 p-6 text-center">
+                            {/* glow */}
+                            <motion.div
+                                animate={{
+                                    scale: [1, 1.08, 1],
+                                }}
+                                transition={{
+                                    duration: 5,
+                                    repeat: Infinity,
+                                }}
+                                className="absolute h-64 w-64 rounded-full bg-blue-100 blur-3xl"
+                            />
 
-                                <h3 className="text-4xl font-black text-blue-600">
-                                    {user.totalListings || 0}
-                                </h3>
+                            {/* paw */}
+                            <motion.div
+                                animate={{
+                                    y: [0, -12, 0],
+                                    rotate: [0, -5, 5, 0],
+                                }}
+                                transition={{
+                                    duration: 5,
+                                    repeat: Infinity,
+                                }}
+                                className="absolute left-30 top-10 rounded-3xl bg-white p-6 shadow-xl"
+                            >
 
-                                <p className="mt-2 text-sm text-gray-600">
-                                    Total Listings
-                                </p>
+                                <FaPaw className="text-5xl text-blue-500" />
 
-                            </div>
+                            </motion.div>
 
-                            <div className="rounded-3xl bg-sky-50 p-6 text-center">
+                            {/* heart */}
+                            <motion.div
+                                animate={{
+                                    y: [0, 10, 0],
+                                }}
+                                transition={{
+                                    duration: 4,
+                                    repeat: Infinity,
+                                }}
+                                className="absolute right-40 top-24 rounded-3xl bg-white p-5 shadow-lg"
+                            >
 
-                                <h3 className="text-4xl font-black text-sky-600">
-                                    {user.successfulAdoptions || 0}
-                                </h3>
+                                <FaHeart className="text-4xl text-slate-500" />
 
-                                <p className="mt-2 text-sm text-gray-600">
-                                    Successful Adoptions
-                                </p>
+                            </motion.div>
 
-                            </div>
+                            {/* shield */}
+                            <motion.div
+                                animate={{
+                                    y: [0, -8, 0],
+                                }}
+                                transition={{
+                                    duration: 6,
+                                    repeat: Infinity,
+                                }}
+                                className="absolute bottom-16 left-40 rounded-3xl bg-white p-5 shadow-lg"
+                            >
 
-                            <div className="rounded-3xl bg-indigo-50 p-6 text-center">
+                                <FaShieldDog className="text-4xl text-cyan-500" />
 
-                                <h3 className="text-4xl font-black text-indigo-600">
-                                    {user.pendingRequests || 0}
-                                </h3>
+                            </motion.div>
 
-                                <p className="mt-2 text-sm text-gray-600">
-                                    Pending Requests
-                                </p>
+                            {/* syringe */}
+                            <motion.div
+                                animate={{
+                                    y: [0, 12, 0],
+                                }}
+                                transition={{
+                                    duration: 5,
+                                    repeat: Infinity,
+                                }}
+                                className="absolute bottom-16 right-35 rounded-3xl bg-white p-5 shadow-lg"
+                            >
 
-                            </div>
+                                <FaSyringe className="text-4xl text-slate-400" />
 
-                            <div className="rounded-3xl bg-cyan-50 p-6 text-center">
+                            </motion.div>
 
-                                <h3 className="text-4xl font-black text-cyan-600">
-                                    {user.activeListings || 0}
-                                </h3>
 
-                                <p className="mt-2 text-sm text-gray-600">
-                                    Active Listings
-                                </p>
-
-                            </div>
 
                         </div>
 
@@ -223,6 +269,7 @@ const UserProfilePage = () => {
             </motion.div>
 
         </div>
+
     );
 };
 

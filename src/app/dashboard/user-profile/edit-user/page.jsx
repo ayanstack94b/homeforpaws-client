@@ -1,65 +1,91 @@
 "use client";
 
+import { authClient } from "@/lib/auth-client";
+
 import { useState } from "react";
-import { useForm, setValue } from "react-hook-form";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { useForm } from "react-hook-form";
 
-import { FaUser, FaEnvelope, FaPhoneAlt, FaMapMarkerAlt, FaImage, FaPaw } from "react-icons/fa";
+import { motion } from "framer-motion";
+
+import Link from "next/link";
+import Swal from "sweetalert2";
+
+import { useRouter } from "next/navigation";
+
+import {
+    FaUser,
+    FaEnvelope,
+    FaImage,
+    FaArrowLeft,
+    FaPaw,
+} from "react-icons/fa";
 
 const EditUserProfilePage = () => {
+    const router = useRouter();
+    const {
+        data: session,
+    } = authClient.useSession();
+
+    const user = {
+
+        name:
+            session?.user?.name || "",
+
+        email:
+            session?.user?.email || "",
+
+        image:
+            session?.user?.image || "",
+
+    };
 
     const {
         register,
         handleSubmit,
-        setValue,
         formState: { errors },
-    } = useForm();
+    } = useForm({
 
-    const [showConfirmModal, setShowConfirmModal] = useState(false);
+        defaultValues: {
 
-    const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+            name: user.name,
 
-    const [formData, setFormData] = useState(null);
+            email: user.email,
 
-    const defaultBios = [
-        "Passionate about helping pets find loving and caring homes.",
-        "Animal lover dedicated to safe and responsible pet adoption.",
-        "Building a better future for rescued and abandoned pets.",
-        "Pet adoption enthusiast who believes every animal deserves love.",
-    ];
+            image: user.image,
 
-    const handleSelectBio = (bio) => {
+        },
 
-        setValue("bio", bio);
+    });
 
-    };
+    const [updatedData, setUpdatedData] =
+        useState(null);
 
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
 
-        setFormData(data);
+        try {
 
-        setShowConfirmModal(true);
+            setUpdatedData(data);
 
-    };
+            await Swal.fire({
 
-    const handleConfirmUpdate = async () => {
+                icon: "success",
 
-        /*
-            BACKEND LOGIC WILL COME LATER
-        */
+                title: "Profile Updated",
 
-        console.log(formData);
+                text: "profile customization coming soon",
 
-        setShowConfirmModal(false);
+                confirmButtonColor: "#2563eb",
 
-        setShowSuccessPopup(true);
+            });
 
-        setTimeout(() => {
+            router.push("/dashboard/user-profile");
 
-            setShowSuccessPopup(false);
+        } catch (error) {
 
-        }, 2000);
+            console.log(error);
+
+        }
 
     };
 
@@ -67,377 +93,275 @@ const EditUserProfilePage = () => {
 
         <div className="min-h-screen">
 
-            {/* Heading */}
+            {/* heading */}
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4 }}
-                className="mb-10"
+                className="mb-10 flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between"
             >
 
-                <h1 className="text-4xl font-bold text-gray-800">
-                    Edit Profile
-                </h1>
+                <div>
 
-                <p className="mt-2 text-gray-600">
-                    Update your personal information and profile details.
-                </p>
+                    <h1 className="text-4xl font-black text-gray-800">
+
+                        Edit Profile
+
+                    </h1>
+
+                    <p className="mt-2 text-gray-600">
+
+                        Update your personal profile information.
+
+                    </p>
+
+                </div>
+
+                <Link
+                    href="/dashboard/user-profile"
+                    className="btn w-fit rounded-2xl border-0 bg-white px-6 text-gray-700 shadow-sm hover:bg-blue-50"
+                >
+
+                    <FaArrowLeft />
+
+                    Back To Profile
+
+                </Link>
 
             </motion.div>
 
-            {/* Form */}
+            {/* main card */}
             <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="rounded-[35px] border border-blue-100 bg-white p-6 shadow-sm md:p-10"
+                className="overflow-hidden rounded-[35px] border border-blue-100 bg-white shadow-sm"
             >
 
-                <form
-                    onSubmit={handleSubmit(onSubmit)}
-                    className="grid grid-cols-1 gap-6 md:grid-cols-2"
-                >
+                <div className="grid lg:grid-cols-[.9fr_1.1fr]">
 
-                    {/* Name */}
-                    <div>
+                    {/* left side */}
+                    <div className="relative hidden overflow-hidden bg-linear-to-b from-blue-500 via-blue-600 to-sky-500 p-10 lg:flex lg:flex-col lg:justify-between">
 
-                        <label className="mb-2 flex items-center gap-2 font-medium text-gray-700">
-
-                            <FaUser className="text-blue-600" />
-
-                            Full Name
-
-                        </label>
-
-                        <input
-                            type="text"
-                            placeholder="Enter your full name"
-                            className="input input-bordered w-full rounded-2xl"
-                            {...register("name", {
-                                required: "Full name is required",
-                            })}
+                        {/* floating glow */}
+                        <motion.div
+                            animate={{
+                                scale: [1, 1.08, 1],
+                            }}
+                            transition={{
+                                duration: 5,
+                                repeat: Infinity,
+                            }}
+                            className="absolute left-10 top-10 h-64 w-64 rounded-full bg-white/10 blur-3xl"
                         />
 
-                        {
-                            errors.name && (
-                                <p className="mt-1 text-sm text-red-500">
-                                    {errors.name.message}
-                                </p>
-                            )
-                        }
+                        {/* top content */}
+                        <div className="relative z-10">
 
-                    </div>
+                            <div className="flex h-20 w-20 items-center justify-center rounded-[30px] bg-white/10 backdrop-blur-md">
 
-                    {/* Email */}
-                    <div>
+                                <FaPaw className="text-4xl text-white" />
 
-                        <label className="mb-2 flex items-center gap-2 font-medium text-gray-700">
+                            </div>
 
-                            <FaEnvelope className="text-blue-600" />
+                            <h2 className="mt-10 text-5xl font-black leading-tight text-white">
 
-                            Email Address
+                                Keep Your Profile Updated
 
-                        </label>
+                            </h2>
 
-                        <input
-                            type="email"
-                            placeholder="Enter your email"
-                            className="input input-bordered w-full rounded-2xl"
-                            {...register("email", {
-                                required: "Email is required",
-                            })}
-                        />
+                            <p className="mt-6 max-w-md leading-8 text-blue-100">
 
-                        {
-                            errors.email && (
-                                <p className="mt-1 text-sm text-red-500">
-                                    {errors.email.message}
-                                </p>
-                            )
-                        }
+                                A complete profile helps create trust and improves your adoption experience.
 
-                    </div>
-
-                    {/* Phone */}
-                    <div>
-
-                        <label className="mb-2 flex items-center gap-2 font-medium text-gray-700">
-
-                            <FaPhoneAlt className="text-blue-600" />
-
-                            Phone Number
-
-                        </label>
-
-                        <input
-                            type="text"
-                            placeholder="Enter your phone number with Dial code"
-                            className="input input-bordered w-full rounded-2xl"
-                            {...register("phone", {
-                                required: "Phone number is required",
-                            })}
-                        />
-
-                        {
-                            errors.phone && (
-                                <p className="mt-1 text-sm text-red-500">
-                                    {errors.phone.message}
-                                </p>
-                            )
-                        }
-
-                    </div>
-
-                    {/* Location */}
-                    <div>
-
-                        <label className="mb-2 flex items-center gap-2 font-medium text-gray-700">
-
-                            <FaMapMarkerAlt className="text-blue-600" />
-
-                            Location
-
-                        </label>
-
-                        <input
-                            type="text"
-                            placeholder="Enter your location"
-                            className="input input-bordered w-full rounded-2xl"
-                            {...register("location", {
-                                required: "Location is required",
-                            })}
-                        />
-
-                        {
-                            errors.location && (
-                                <p className="mt-1 text-sm text-red-500">
-                                    {errors.location.message}
-                                </p>
-                            )
-                        }
-
-                    </div>
-
-                    {/* Photo URL */}
-                    <div className="md:col-span-2">
-
-                        <label className="mb-2 flex items-center gap-2 font-medium text-gray-700">
-
-                            <FaImage className="text-blue-600" />
-
-                            Profile Photo URL
-
-                        </label>
-
-                        <input
-                            type="text"
-                            placeholder="Enter your profile photo URL"
-                            className="input input-bordered w-full rounded-2xl"
-                            {...register("photo", {
-                                required: "Profile photo is required",
-                            })}
-                        />
-
-                        {
-                            errors.photo && (
-                                <p className="mt-1 text-sm text-red-500">
-                                    {errors.photo.message}
-                                </p>
-                            )
-                        }
-
-                    </div>
-
-                    {/* Bio */}
-                    <div className="md:col-span-2">
-
-                        <label className="mb-2 block font-medium text-gray-700"> Bio </label>
-
-                        {/* Default Bio Options */}
-                        <div className="mb-4 flex flex-wrap gap-3">
-
-                            {
-                                defaultBios.map((bio, i) => (
-
-                                    <button
-                                        key={i}
-                                        type="button"
-                                        onClick={() => handleSelectBio(bio)}
-                                        className="rounded-full border border-blue-200 bg-blue-50 px-4 py-2 text-sm text-blue-600 transition hover:bg-blue-100"
-                                    >
-
-                                        Use Default Bio {i + 1}
-
-                                    </button>
-
-                                ))
-                            }
+                            </p>
 
                         </div>
 
-                        <textarea
-                            rows={3}
-                            placeholder="Write something about yourself"
-                            className="textarea textarea-bordered w-full rounded-2xl"
-                            {...register("bio", {
-                                required: "Bio is required",
-                            })}
-                        ></textarea>
-
-                        {
-                            errors.bio && (
-                                <p className="mt-1 text-sm text-red-500">
-                                    {errors.bio.message}
-                                </p>
-                            )
-                        }
-
-                    </div>
-
-                    {/* Button */}
-                    <div className="md:col-span-2">
-
-                        <button
-                            type="submit"
-                            className="btn h-14 rounded-2xl border-0 bg-blue-600 px-10 text-white hover:bg-blue-700"
+                        {/* bottom profile preview */}
+                        <motion.div
+                            animate={{
+                                y: [0, -10, 0],
+                            }}
+                            transition={{
+                                duration: 4,
+                                repeat: Infinity,
+                            }}
+                            className="relative z-10 mt-16 rounded-[35px] border border-white/20 bg-white/10 p-6 backdrop-blur-xl"
                         >
 
-                            Update Profile
+                            <div className="flex items-center gap-5">
 
-                        </button>
+                                <img
+                                    src={
+                                        updatedData?.image ||
+                                        user.image ||
+                                        "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                                    }
+                                    alt="user"
+                                    className="h-20 w-20 rounded-full border-4 border-white object-cover"
+                                />
+
+                                <div>
+
+                                    <h3 className="text-2xl font-bold text-white">
+
+                                        {
+                                            updatedData?.name ||
+                                            user.name ||
+                                            "Guest User"
+                                        }
+
+                                    </h3>
+
+                                    <p className="mt-1 text-blue-100">
+
+                                        {
+                                            updatedData?.email ||
+                                            user.email
+                                        }
+
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </motion.div>
 
                     </div>
 
-                </form>
+                    {/* right side */}
+                    <div className="p-6 md:p-10">
+
+                        <form
+                            onSubmit={handleSubmit(onSubmit)}
+                            className="space-y-8"
+                        >
+
+                            {/* profile image */}
+                            <div className="flex justify-center lg:justify-start">
+
+                                <motion.img
+                                    initial={{ scale: 0.9 }}
+                                    animate={{ scale: 1 }}
+                                    transition={{ duration: 0.4 }}
+                                    src={
+                                        updatedData?.image ||
+                                        user.image ||
+                                        "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                                    }
+                                    alt="user"
+                                    className="h-36 w-36 rounded-full border-8 border-blue-50 object-cover shadow-lg"
+                                />
+
+                            </div>
+
+                            {/* name */}
+                            <div>
+
+                                <label className="mb-3 flex items-center gap-2 font-semibold text-gray-700">
+
+                                    <FaUser className="text-blue-600" />
+
+                                    Full Name
+
+                                </label>
+
+                                <input
+                                    type="text"
+                                    placeholder="Enter your name"
+                                    className="input input-bordered h-14 w-full rounded-2xl"
+                                    {...register("name", {
+                                        required: "Name is required",
+                                    })}
+                                />
+
+                                {
+                                    errors.name && (
+
+                                        <p className="mt-2 text-sm text-red-500">
+
+                                            {errors.name.message}
+
+                                        </p>
+
+                                    )
+                                }
+
+                            </div>
+
+                            {/* email */}
+                            <div>
+
+                                <label className="mb-3 flex items-center gap-2 font-semibold text-gray-700">
+
+                                    <FaEnvelope className="text-blue-600" />
+
+                                    Email Address
+
+                                </label>
+
+                                <input
+                                    type="email"
+                                    placeholder="Enter your email"
+                                    className="input input-bordered h-14 w-full rounded-2xl"
+                                    {...register("email", {
+                                        required: "Email is required",
+                                    })}
+                                />
+
+                                {
+                                    errors.email && (
+
+                                        <p className="mt-2 text-sm text-red-500">
+
+                                            {errors.email.message}
+
+                                        </p>
+
+                                    )
+                                }
+
+                            </div>
+
+                            {/* image */}
+                            <div>
+
+                                <label className="mb-3 flex items-center gap-2 font-semibold text-gray-700">
+
+                                    <FaImage className="text-blue-600" />
+
+                                    Profile Image URL
+
+                                </label>
+
+                                <input
+                                    type="text"
+                                    placeholder="Enter image url"
+                                    className="input input-bordered h-14 w-full rounded-2xl"
+                                    {...register("image")}
+                                />
+
+                            </div>
+
+                            {/* button */}
+                            <button
+                                type="submit"
+                                className="btn mt-4 h-14 w-full rounded-2xl border-0 bg-blue-600 text-lg text-white hover:bg-blue-700"
+                            >
+
+                                Save Changes
+
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </div>
 
             </motion.div>
-
-            {/* confirmation modal */}
-            <AnimatePresence>
-
-                {
-                    showConfirmModal && (
-
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            className="fixed inset-0 z-999 flex items-center justify-center bg-black/30 backdrop-blur-sm px-4"
-                        >
-
-                            <motion.div
-                                initial={{ scale: 0.7, opacity: 0 }}
-                                animate={{ scale: 1, opacity: 1 }}
-                                exit={{ scale: 0.7, opacity: 0 }}
-                                className="w-full max-w-md rounded-[35px] bg-white p-8 shadow-2xl"
-                            >
-
-                                <div className="flex justify-center">
-
-                                    <div className="rounded-full bg-blue-100 p-5 text-5xl text-blue-600">
-
-                                        <FaPaw />
-
-                                    </div>
-
-                                </div>
-
-                                <h2 className="mt-6 text-center text-3xl font-bold text-gray-800">
-
-                                    Confirm Changes
-
-                                </h2>
-
-                                <p className="mt-3 text-center leading-7 text-gray-600">
-
-                                    Are you sure you want to update your profile information?
-
-                                </p>
-
-                                <div className="mt-8 flex items-center justify-center gap-4">
-
-                                    <button
-                                        onClick={() => setShowConfirmModal(false)}
-                                        className="btn rounded-2xl border-0 bg-gray-200 text-gray-700 hover:bg-gray-300"
-                                    >
-                                        Cancel
-                                    </button>
-
-                                    <button
-                                        onClick={handleConfirmUpdate}
-                                        className="btn rounded-2xl border-0 bg-blue-600 text-white hover:bg-blue-700"
-                                    >
-                                        Yes, Update
-                                    </button>
-
-                                </div>
-
-                            </motion.div>
-
-                        </motion.div>
-
-                    )
-                }
-
-            </AnimatePresence>
-
-            {/* SUCCESS POPUP */}
-            <AnimatePresence>
-
-                {
-                    showSuccessPopup && (
-
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            className="fixed inset-0 z-999 flex items-center justify-center bg-black/20 backdrop-blur-sm px-4"
-                        >
-
-                            <motion.div
-                                initial={{ scale: 0.6, opacity: 0, y: 40 }}
-                                animate={{ scale: 1, opacity: 1, y: 0 }}
-                                exit={{ scale: 0.6, opacity: 0 }}
-                                transition={{ duration: 0.3 }}
-                                className="w-full max-w-sm rounded-[35px] bg-white p-8 text-center shadow-2xl"
-                            >
-
-                                <motion.div
-                                    animate={{
-                                        rotate: [0, -10, 10, -10, 0],
-                                        y: [0, -6, 0],
-                                    }}
-                                    transition={{
-                                        duration: 1.5,
-                                        repeat: Infinity,
-                                    }}
-                                    className="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-blue-100 text-5xl text-blue-600"
-                                >
-
-                                    <FaPaw />
-
-                                </motion.div>
-
-                                <h2 className="mt-6 text-3xl font-bold text-gray-800">
-
-                                    Profile Updated
-
-                                </h2>
-
-                                <p className="mt-3 leading-7 text-gray-600">
-
-                                    Your profile information has been updated successfully.
-
-                                </p>
-
-                            </motion.div>
-
-                        </motion.div>
-
-                    )
-                }
-
-            </AnimatePresence>
 
         </div>
     );

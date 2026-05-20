@@ -3,7 +3,7 @@ import React from 'react';
 const AuthProvider = () => {
     return (
         <div>
-            AuthProvider.jsx
+            AuthProvider
         </div>
     );
 };
