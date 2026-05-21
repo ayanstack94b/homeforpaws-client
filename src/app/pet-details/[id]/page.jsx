@@ -147,9 +147,7 @@ const PetDetailsPage = () => {
     }
     console.log(session)
 
-    console.log("pet owner:", pet?.ownerEmail);
 
-    console.log("session user:", session?.user?.email);
     return (
 
         <section className="min-h-screen bg-linear-to-b from-blue-50 via-white to-blue-50 py-16">

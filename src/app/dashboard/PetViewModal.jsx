@@ -22,14 +22,7 @@ const PetViewModal = ({ pet, showAdoptForm, setShowAdoptForm }) => {
 
 
     if (!pet) return null;
-    console.log("owner:", pet?.ownerEmail);
-
-    console.log("session:", session?.user?.email);
-
-    console.log(
-        pet?.ownerEmail?.trim().toLowerCase() ===
-        session?.user?.email?.trim().toLowerCase()
-    );
+   
     return (
 
         <dialog
@@ -53,7 +46,7 @@ const PetViewModal = ({ pet, showAdoptForm, setShowAdoptForm }) => {
                         />
 
                         {/* overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
+                        <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/10 to-transparent"></div>
 
                         {/* pet name */}
                         <div className="absolute bottom-6 left-6">
@@ -71,7 +64,7 @@ const PetViewModal = ({ pet, showAdoptForm, setShowAdoptForm }) => {
                     </div>
 
                     {/* right side */}
-                    <div className="flex min-h-[500px] flex-col justify-between p-7">
+                    <div className="flex min-h-125 flex-col justify-between p-7">
 
                         {
                             !showAdoptForm ? (
