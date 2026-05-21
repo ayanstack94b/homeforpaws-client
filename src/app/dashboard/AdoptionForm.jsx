@@ -6,10 +6,7 @@ import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 
-const AdoptionForm = ({
-    pet,
-    setShowAdoptForm,
-}) => {
+const AdoptionForm = ({ pet, setShowAdoptForm, }) => {
 
     const {
         data: session,
@@ -19,15 +16,23 @@ const AdoptionForm = ({
 
     const router = useRouter();
 
-    const [pickupDate, setPickupDate] =
-        useState("");
+    const [pickupDate, setPickupDate] = useState("");
 
-    const [message, setMessage] =
-        useState("");
+    const [message, setMessage] = useState("");
 
     const handleAdoptionRequest = async (e) => {
-
         e.preventDefault();
+
+        if (!user?.email) {
+
+            router.push("/login");
+
+            return;
+
+        }
+    
+       
+
 
         const adoptionInfo = {
 
@@ -47,6 +52,8 @@ const AdoptionForm = ({
 
         };
 
+
+
         const res = await fetch(
             "http://localhost:5000/adoption-request",
             {
@@ -63,6 +70,8 @@ const AdoptionForm = ({
         const data = await res.json();
 
         console.log(data);
+
+
 
         if (data.inserted) {
 
@@ -102,6 +111,9 @@ const AdoptionForm = ({
         setMessage("");
 
     };
+
+
+
 
     return (
 

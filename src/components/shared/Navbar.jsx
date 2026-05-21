@@ -19,28 +19,33 @@ const Navbar = () => {
         const logout = await Swal.fire({
 
             title: "Logout?",
+
             text: "You will be signed out from your account.",
+
             icon: "warning",
 
             showCancelButton: true,
 
             confirmButtonColor: "#2563eb",
+
             cancelButtonColor: "#d33",
 
             confirmButtonText: "Yes, Logout",
 
             background: "#ffffff",
+
         });
-        router.push("/");
 
         if (logout.isConfirmed) {
 
             await authClient.signOut();
 
-            Swal.fire({
+            await Swal.fire({
 
                 title: "Logged Out",
+
                 text: "You have been signed out successfully.",
+
                 icon: "success",
 
                 confirmButtonColor: "#2563eb",
@@ -50,6 +55,8 @@ const Navbar = () => {
                 showConfirmButton: false,
 
             });
+
+            window.location.href = "/";
 
         }
 
