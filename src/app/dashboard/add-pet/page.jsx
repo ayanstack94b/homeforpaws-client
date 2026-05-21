@@ -61,21 +61,21 @@ const AddPetPage = () => {
         })
         const resData = await res.json();
 
-        // if (resData.insertedId) {
+        if (resData.insertedId) {
 
-        //     // Swal.fire({
+            // Swal.fire({
 
-        //     //     icon: "success",
+            //     icon: "success",
 
-        //     //     title: "Pet Added Successfully",
+            //     title: "Pet Added Successfully",
 
-        //     //     text: "Your pet listing is now live.",
+            //     text: "Your pet listing is now live.",
 
-        //     //     timer: 1800,
+            //     timer: 1800,
 
-        //     //     showConfirmButton: false,
+            //     showConfirmButton: false,
 
-        //     // });
+            // });
 
             setTimeout(() => {
 

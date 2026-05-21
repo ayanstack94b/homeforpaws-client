@@ -104,7 +104,17 @@ const AdoptionForm = ({ pet, setShowAdoptForm, }) => {
         }
 
         else {
-            alert("You already requested this pet");
+
+            Swal.fire({
+
+                icon: "error",
+
+                title: "Request Failed",
+
+                text: data.message,
+
+            });
+
         }
 
         setPickupDate("");
