@@ -26,14 +26,11 @@ const PetDetailsPage = () => {
 
     const router = useRouter();
 
-    const [pet, setPet] =
-        useState(null);
+    const [pet, setPet] = useState(null);
 
-    const [loading, setLoading] =
-        useState(true);
+    const [loading, setLoading] = useState(true);
 
-    const [showAdoptForm, setShowAdoptForm] =
-        useState(false);
+    const [showAdoptForm, setShowAdoptForm] = useState(false);
 
     const {
         data: session,
@@ -69,9 +66,28 @@ const PetDetailsPage = () => {
 
         }
 
-        if (!session?.user) {
+        if (!session?.user?.email) {
 
             router.push("/login");
+
+            return;
+
+        }
+
+        if (
+            pet?.ownerEmail?.trim().toLowerCase() ===
+            session?.user?.email?.trim().toLowerCase()
+        ) {
+
+            Swal.fire({
+
+                icon: "error",
+
+                title: "Action Denied",
+
+                text: "You cannot adopt your own pet.",
+
+            });
 
             return;
 
@@ -130,6 +146,10 @@ const PetDetailsPage = () => {
 
     }
     console.log(session)
+
+    console.log("pet owner:", pet?.ownerEmail);
+
+    console.log("session user:", session?.user?.email);
     return (
 
         <section className="min-h-screen bg-linear-to-b from-blue-50 via-white to-blue-50 py-16">

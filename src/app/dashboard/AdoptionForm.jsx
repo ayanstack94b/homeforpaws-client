@@ -22,6 +22,25 @@ const AdoptionForm = ({ pet, setShowAdoptForm, }) => {
 
     const handleAdoptionRequest = async (e) => {
         e.preventDefault();
+        if (
+            pet?.ownerEmail?.trim().toLowerCase() ===
+            user?.email?.trim().toLowerCase()
+        ) {
+
+            Swal.fire({
+
+                icon: "error",
+
+                title: "Action Denied",
+
+                text: "You cannot adopt your own pet.",
+
+            });
+
+            return;
+
+        }
+
 
         if (!user?.email) {
 
@@ -30,8 +49,8 @@ const AdoptionForm = ({ pet, setShowAdoptForm, }) => {
             return;
 
         }
-    
-       
+
+
 
 
         const adoptionInfo = {

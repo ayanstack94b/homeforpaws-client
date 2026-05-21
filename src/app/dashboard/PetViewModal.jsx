@@ -22,8 +22,14 @@ const PetViewModal = ({ pet, showAdoptForm, setShowAdoptForm }) => {
 
 
     if (!pet) return null;
-    console.log(pet);
-    console.log(session?.user?.email);
+    console.log("owner:", pet?.ownerEmail);
+
+    console.log("session:", session?.user?.email);
+
+    console.log(
+        pet?.ownerEmail?.trim().toLowerCase() ===
+        session?.user?.email?.trim().toLowerCase()
+    );
     return (
 
         <dialog
@@ -168,7 +174,8 @@ const PetViewModal = ({ pet, showAdoptForm, setShowAdoptForm }) => {
                                         {
                                             session?.user?.email ? (
 
-                                                pet?.ownerEmail === session?.user?.email ? (
+                                                pet?.ownerEmail?.trim().toLowerCase() ===
+                                                    session?.user?.email?.trim().toLowerCase() ? (
 
                                                     <button
                                                         disabled
@@ -230,13 +237,13 @@ const PetViewModal = ({ pet, showAdoptForm, setShowAdoptForm }) => {
                                         Adoption Request
                                     </h2>
 
-                                        <AdoptionForm
-                                            pet={pet}
-                                            setShowAdoptForm={setShowAdoptForm}
-                                        />
+                                    <AdoptionForm
+                                        pet={pet}
+                                        setShowAdoptForm={setShowAdoptForm}
+                                    />
 
                                     <button
-                                            onClick={() => setShowAdoptForm(false)}
+                                        onClick={() => setShowAdoptForm(false)}
                                         className="btn mt-8 rounded-2xl border-0 bg-gray-100 text-gray-700 hover:bg-gray-200"
                                     >
 

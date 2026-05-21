@@ -54,6 +54,7 @@ const AddPetPage = () => {
         // getting the data from DB
         const res = await fetch('http://localhost:5000/pet', {
             method: "POST",
+            credentials: "include",
             headers: {
                 "content-type": "application/json"
             },

@@ -10,10 +10,15 @@ const AllPetsPage = () => {
 
     const [pets, setPets] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [search, setSearch] = useState("");
+    const [species, setSpecies] = useState("");
+
 
     useEffect(() => {
 
-        fetch("http://localhost:5000/pet")
+        fetch(
+            `http://localhost:5000/pet?search=${search}&species=${species}`
+        )
             .then((res) => res.json())
             .then((data) => {
 
@@ -23,7 +28,7 @@ const AllPetsPage = () => {
 
             });
 
-    }, []);
+    }, [search, species]);
 
     if (loading) {
         return <PuppySpinner />;
@@ -57,6 +62,55 @@ const AllPetsPage = () => {
                     </p>
 
                 </motion.div>
+
+                {/* Search + Filter */}
+                <div className="mb-10 flex flex-col gap-4 lg:flex-row">
+
+                    {/* Search */}
+                    <input
+                        type="text"
+                        placeholder="Search pets by name..."
+                        value={search}
+                        onChange={(e) =>
+                            setSearch(e.target.value)
+                        }
+                        className="input input-bordered w-full rounded-2xl"
+                    />
+
+                    {/* Filter */}
+                    <select
+                        value={species}
+                        onChange={(e) =>
+                            setSpecies(e.target.value)
+                        }
+                        className="select select-bordered w-full max-w-xs rounded-2xl"
+                    >
+
+                        <option value="">
+                            All Species
+                        </option>
+
+                        <option value="Dog">
+                            Dog
+                        </option>
+
+                        <option value="Cat">
+                            Cat
+                        </option>
+
+                        <option value="Bird">
+                            Bird
+                        </option>
+                        <option value="Others">
+                            Others
+                        </option>
+
+                    </select>
+
+                </div>
+
+             
+
 
                 {/* Grid */}
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">

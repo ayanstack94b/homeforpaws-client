@@ -12,10 +12,14 @@ import {
 } from "react-icons/fa";
 import { authClient } from "@/lib/auth-client";
 import Swal from "sweetalert2";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
 
+
+
 const LoginPage = () => {
+
+    const router = useRouter();
 
     const {
         register,
@@ -23,54 +27,64 @@ const LoginPage = () => {
         formState: { errors },
     } = useForm();
 
-  const onSubmit = async (formData) => {
-  
-          delete formData.confirmPassword;
-  
-          const { data, error } =
-              await authClient.signIn.email({
-  
-                  email: formData.email,
-                  password: formData.password,
-  
-              });
-  
-          console.log({ data, error });
-  
-  
-          if (data) {
-  
-              Swal.fire({
-                  title: "Logged in Successfully",
-                  text: "Welcome back to HomeForPaws",
-                  icon: "success",
-                  confirmButtonColor: "#2563eb",
-                  background: "#ffffff",
-              });
-  
-              redirect("/");
-  
-          }
-  
-  
-          if (error) {
-  
-              Swal.fire({
-                  title: "Login Failed",
-                  text: error.message,
-                  icon: "error",
-                  confirmButtonColor: "#dc2626",
-                  background: "#ffffff",
-              });
-  
-          }
-      };
 
-      const handleGoogleLogin=async()=>{
-          const data = await authClient.signIn.social({
-              provider: "google",
-          });
-      }
+    const onSubmit = async (formData) => {
+
+        const { data, error } =
+            await authClient.signIn.email({
+
+                email: formData.email,
+
+                password: formData.password,
+
+            });
+
+        if (data) {
+
+            Swal.fire({
+
+                title: "Logged in Successfully",
+
+                text: "Welcome back to HomeForPaws",
+
+                icon: "success",
+
+                confirmButtonColor: "#2563eb",
+
+                background: "#ffffff",
+
+            });
+
+            router.push("/");
+
+        }
+
+        if (error) {
+
+            Swal.fire({
+
+                title: "Login Failed",
+
+                text: error.message,
+
+                icon: "error",
+
+                confirmButtonColor: "#dc2626",
+
+                background: "#ffffff",
+
+            });
+
+        }
+
+    };
+
+
+    const handleGoogleLogin = async () => {
+        const data = await authClient.signIn.social({
+            provider: "google",
+        });
+    }
 
     return (
 
