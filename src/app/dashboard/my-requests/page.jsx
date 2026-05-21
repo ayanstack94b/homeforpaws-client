@@ -311,31 +311,29 @@ const MyRequestsPage = () => {
                                     {/* buttons */}
                                     <div className="mt-8 flex flex-wrap gap-4">
 
-                                        {/* view pet */}
-                                        {/* <Link
-                                            href={`/pets/${request.petId}`}
-                                            className="btn rounded-2xl border-0 bg-blue-600 text-white hover:bg-blue-700"
-                                        >
-
-                                            <FaEye />
-
-                                            View Pet
-
-                                        </Link> */}
+                                       
 
                                         {/* cancel request */}
-                                        <button
-                                            onClick={() =>
-                                                openCancelModal(request._id)
-                                            }
-                                            className="btn rounded-2xl border-0 bg-red-500 text-white hover:bg-red-600"
-                                        >
+                                        {
+                                            request.status === "pending" && (
 
-                                            <FaTrash />
+                                                <button
+                                                    onClick={() => {
 
-                                            Cancel Request
+                                                        setSelectedRequestId(request._id);
 
-                                        </button>
+                                                        handleCancelRequest();
+
+                                                    }}
+                                                    className="btn rounded-2xl border-0 bg-red-500 text-white hover:bg-red-600"
+                                                >
+
+                                                    Cancel Request
+
+                                                </button>
+
+                                            )
+                                        }
 
                                     </div>
 

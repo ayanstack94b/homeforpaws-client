@@ -10,6 +10,7 @@ import {
     FaVenus,
 } from "react-icons/fa";
 import AdoptionForm from "./AdoptionForm";
+import Link from "next/link";
 
 const PetViewModal = ({ pet, showAdoptForm, setShowAdoptForm }) => {
 
@@ -21,7 +22,8 @@ const PetViewModal = ({ pet, showAdoptForm, setShowAdoptForm }) => {
 
 
     if (!pet) return null;
-
+    console.log(pet);
+    console.log(session?.user?.email);
     return (
 
         <dialog
@@ -163,16 +165,59 @@ const PetViewModal = ({ pet, showAdoptForm, setShowAdoptForm }) => {
                                             </button>
                                         </form>
 
-                                        <button
-                                            type="button"
-                                            onClick={() => setShowAdoptForm(true)}
-                                            className="btn h-12 flex-1 rounded-2xl border-0 bg-blue-600 text-white hover:bg-blue-700"
-                                        >
+                                        {
+                                            session?.user?.email ? (
 
-                                            Adopt Pet
+                                                pet?.ownerEmail === session?.user?.email ? (
 
-                                        </button>
+                                                    <button
+                                                        disabled
+                                                        className="btn mt-10 h-14 rounded-2xl border-0 bg-gray-300 text-lg text-gray-600"
+                                                    >
 
+                                                        This Is Your Pet
+
+                                                    </button>
+
+                                                ) : pet?.adopted ? (
+
+                                                    <button
+                                                        disabled
+                                                        className="btn mt-10 h-14 rounded-2xl border-0 bg-red-300 text-lg text-white"
+                                                    >
+
+                                                        Already Adopted
+
+                                                    </button>
+
+                                                ) : (
+
+                                                    <button
+                                                        onClick={() =>
+                                                            setShowAdoptForm(true)
+                                                        }
+                                                        className="btn mt-10 h-14 rounded-2xl border-0 bg-blue-600 text-lg text-white hover:bg-blue-700"
+                                                    >
+
+                                                        Adopt Now
+
+                                                    </button>
+
+                                                )
+
+                                            ) : (
+
+                                                <Link
+                                                    href="/login"
+                                                    className="btn mt-10 h-14 rounded-2xl border-0 bg-blue-600 text-lg text-white hover:bg-blue-700"
+                                                >
+
+                                                    Login To Adopt
+
+                                                </Link>
+
+                                            )
+                                        }
                                     </div>
 
                                 </>

@@ -8,25 +8,37 @@ import PuppySpinner from "@/components/shared/PuppySpinner";
 import DashboardPetCard from "@/components/dashboard/DashboardPetCard";
 import PetEditModal from "../PetEditModal";
 import PetViewModal from "../PetViewModal";
+import { authClient } from "@/lib/auth-client";
 
 
 const MyListingsPage = () => {
 
     const [pets, setPets] = useState([]);
-
     const [loading, setLoading] = useState(true);
-
     const [showDeleteModal, setShowDeleteModal] = useState(false);
-
     const [selectedPetId, setSelectedPetId] = useState(null);
-
     const [selectedPet, setSelectedPet] = useState(null);
-
     const [selectedViewPet, setSelectedViewPet] = useState(null);
     const [showAdoptForm, setShowAdoptForm] = useState(false);
+    const [requests, setRequests] = useState([]);
+    const [selectedRequestsPet, setSelectedRequestsPet] = useState(null);
+
+
+    const {
+        data: session,
+    } = authClient.useSession();
+
     useEffect(() => {
 
-        fetch("http://localhost:5000/pet")
+        if (!session?.user?.email) {
+
+            return;
+
+        }
+
+        fetch(
+            `http://localhost:5000/pet?email=${session?.user?.email}`
+        )
             .then((res) => res.json())
             .then((data) => {
 
@@ -36,7 +48,7 @@ const MyListingsPage = () => {
 
             });
 
-    }, []);
+    }, [session]);
 
 
     /*OPEN View MODAL*/
@@ -65,6 +77,118 @@ const MyListingsPage = () => {
         document
             .getElementById("edit_pet_modal")
             .showModal();
+
+    };
+
+    /* OPEN REQUESTS MODAL */
+
+    const openRequestsModal = async (pet) => {
+
+        setSelectedRequestsPet(pet);
+
+        const res = await fetch(
+            `http://localhost:5000/adoption-request?petId=${pet._id}`
+        );
+
+        const data = await res.json();
+
+        setRequests(data);
+
+        document
+            .getElementById("requests_modal")
+            ?.showModal();
+
+    };
+
+    /* APPROVE REQUEST */
+
+    const handleApprove = async (request) => {
+
+        await fetch(
+            `http://localhost:5000/adoption-request/${request._id}`,
+            {
+                method: "PATCH",
+
+                headers: {
+                    "content-type": "application/json",
+                },
+
+                body: JSON.stringify({
+                    status: "approved",
+                }),
+            }
+        );
+
+        await fetch(
+            `http://localhost:5000/pet/adopt/${request.petId}`,
+            {
+                method: "PATCH",
+            }
+        );
+
+        const updatedRequests =
+            requests.map((req) => {
+
+                if (req._id === request._id) {
+
+                    return {
+                        ...req,
+                        status: "approved",
+                    };
+
+                }
+
+                return {
+                    ...req,
+                    status:
+                        req.status === "pending"
+                            ? "rejected"
+                            : req.status,
+                };
+
+            });
+
+        setRequests(updatedRequests);
+
+    };
+
+
+    /* REJECT REQUEST */
+
+    const handleReject = async (request) => {
+
+        await fetch(
+            `http://localhost:5000/adoption-request/${request._id}`,
+            {
+                method: "PATCH",
+
+                headers: {
+                    "content-type": "application/json",
+                },
+
+                body: JSON.stringify({
+                    status: "rejected",
+                }),
+            }
+        );
+
+        const updatedRequests =
+            requests.map((req) => {
+
+                if (req._id === request._id) {
+
+                    return {
+                        ...req,
+                        status: "rejected",
+                    };
+
+                }
+
+                return req;
+
+            });
+
+        setRequests(updatedRequests);
 
     };
 
@@ -108,7 +232,7 @@ const MyListingsPage = () => {
 
     };
 
-    /*LOADING*/
+
 
     if (loading) {
 
@@ -120,7 +244,7 @@ const MyListingsPage = () => {
 
         <div>
 
-            {/* PAGE HEADING*/}
+            {/* Heading*/}
 
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -171,6 +295,7 @@ const MyListingsPage = () => {
                                 openDeleteModal={openDeleteModal}
                                 openEditModal={openEditModal}
                                 openViewModal={openViewModal}
+                                openRequestsModal={openRequestsModal}
                             />
 
                         </motion.div>
@@ -237,6 +362,7 @@ const MyListingsPage = () => {
 
                                 </button>
 
+
                                 {/* Delete */}
                                 <button
                                     onClick={handleDelete}
@@ -244,6 +370,17 @@ const MyListingsPage = () => {
                                 >
 
                                     Delete
+
+                                </button>
+                                {/* open Requests */}
+                                <button
+                                    onClick={() =>
+                                        openRequestsModal(pet)
+                                    }
+                                    className="btn rounded-xl border-0 bg-cyan-500 text-white hover:bg-cyan-600"
+                                >
+
+                                    Requests
 
                                 </button>
 
@@ -267,8 +404,147 @@ const MyListingsPage = () => {
                 setShowAdoptForm={setShowAdoptForm}
             />
 
+            {/* Req modal */}
+
+            <dialog
+                id="requests_modal"
+                className="modal"
+            >
+
+                <div className="modal-box max-w-3xl rounded-[35px]">
+
+                    <h2 className="text-3xl font-black text-gray-800">
+
+                        Adoption Requests
+
+                    </h2>
+
+                    <p className="mt-2 text-gray-500">
+
+                        Requests for {selectedRequestsPet?.petName}
+
+                    </p>
+
+                    <div className="mt-8 space-y-4">
+
+                        {
+                            requests.length > 0 ? (
+
+                                requests.map((request) => (
+
+                                    <div
+                                        key={request._id}
+                                        className="rounded-3xl border border-gray-100 p-5"
+                                    >
+
+                                        <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+
+                                            <div>
+
+                                                <h3 className="text-2xl font-bold text-gray-800">
+
+                                                    {request.adopterName}
+
+                                                </h3>
+
+                                                <p className="mt-2 text-gray-600">
+
+                                                    {request.adopterEmail}
+
+                                                </p>
+
+                                                <p className="mt-2 text-gray-500">
+
+                                                    Pickup Date: {request.pickupDate}
+
+                                                </p>
+
+                                            </div>
+
+                                            <div className="flex flex-col items-end gap-3">
+
+                                                <span className="rounded-full bg-blue-100 px-4 py-2 text-sm font-semibold text-blue-600">
+
+                                                    {request.status}
+
+                                                </span>
+
+                                                {
+                                                    request.status === "pending" && (
+
+                                                        <div className="flex gap-3">
+
+                                                            <button
+                                                                onClick={() =>
+                                                                    handleApprove(request)
+                                                                }
+                                                                className="btn rounded-xl border-0 bg-green-500 text-white hover:bg-green-600"
+                                                            >
+
+                                                                Approve
+
+                                                            </button>
+
+                                                            <button
+                                                                onClick={() =>
+                                                                    handleReject(request)
+                                                                }
+                                                                className="btn rounded-xl border-0 bg-red-500 text-white hover:bg-red-600"
+                                                            >
+
+                                                                Reject
+
+                                                            </button>
+
+                                                        </div>
+
+                                                    )
+                                                }
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                ))
+
+                            ) : (
+
+                                <div className="rounded-3xl border border-dashed p-10 text-center text-gray-500">
+
+                                    No adoption requests found.
+
+                                </div>
+
+                            )
+                        }
+
+                    </div>
+
+                    <div className="modal-action">
+
+                        <form method="dialog">
+
+                            <button className="btn rounded-2xl">
+
+                                Close
+
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </dialog>
         </div>
+
+
     );
+
+
 };
 
 export default MyListingsPage;

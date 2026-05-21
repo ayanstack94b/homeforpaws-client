@@ -4,9 +4,13 @@ import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
+import Swal from "sweetalert2";
+
 
 const AddPetPage = () => {
     const [showSuccess, setShowSuccess] = useState(false);
+    const router = useRouter();
     const {
         register,
         handleSubmit,
@@ -26,7 +30,7 @@ const AddPetPage = () => {
 
             ...data,
 
-            ownerEmail: user?.email,
+            ownerEmail: session?.user?.email,
 
             age: {
 
@@ -55,9 +59,33 @@ const AddPetPage = () => {
             },
             body: JSON.stringify(petData)
         })
-        const resData = await res.json()
+        const resData = await res.json();
+
+        // if (resData.insertedId) {
+
+        //     // Swal.fire({
+
+        //     //     icon: "success",
+
+        //     //     title: "Pet Added Successfully",
+
+        //     //     text: "Your pet listing is now live.",
+
+        //     //     timer: 1800,
+
+        //     //     showConfirmButton: false,
+
+        //     // });
+
+            setTimeout(() => {
+
+                router.push("/dashboard/my-listings");
+
+            }, 1800);
+
+        }
         
-        console.log(resData);
+        // console.log(resData);
     };
 
     return (
