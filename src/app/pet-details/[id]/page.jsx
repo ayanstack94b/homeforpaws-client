@@ -12,13 +12,14 @@ import AdoptionForm from "@/app/dashboard/AdoptionForm";
 
 import {
     FaHeart,
-    FaMapMarkerAlt,
     FaMars,
     FaVenus,
     FaShieldDog,
     FaSyringe,
     FaArrowLeft,
 } from "react-icons/fa6";
+
+import { FaMapMarkerAlt } from "react-icons/fa";
 
 const PetDetailsPage = () => {
 
@@ -40,7 +41,7 @@ const PetDetailsPage = () => {
     /* fetch pet */
     useEffect(() => {
 
-        fetch("http://localhost:5000/pet")
+        fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/pet`)
             .then((res) => res.json())
             .then((data) => {
 

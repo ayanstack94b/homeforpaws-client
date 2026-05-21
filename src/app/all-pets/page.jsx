@@ -17,7 +17,7 @@ const AllPetsPage = () => {
     useEffect(() => {
 
         fetch(
-            `http://localhost:5000/pet?search=${search}&species=${species}`
+            `${process.env.NEXT_PUBLIC_SERVER_URL}/pet?search=${search}&species=${species}`
         )
             .then((res) => res.json())
             .then((data) => {

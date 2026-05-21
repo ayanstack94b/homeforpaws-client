@@ -52,7 +52,7 @@ const AddPetPage = () => {
         }, 3000);
 
         // getting the data from DB
-        const res = await fetch('http://localhost:5000/pet', {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/pet`, {
             method: "POST",
             credentials: "include",
             headers: {

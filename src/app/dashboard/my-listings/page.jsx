@@ -37,7 +37,7 @@ const MyListingsPage = () => {
         }
 
         fetch(
-            `http://localhost:5000/pet?email=${session?.user?.email}`
+            `${process.env.NEXT_PUBLIC_SERVER_URL}/pet?email=${session?.user?.email}`
         )
             .then((res) => res.json())
             .then((data) => {
@@ -87,7 +87,7 @@ const MyListingsPage = () => {
         setSelectedRequestsPet(pet);
 
         const res = await fetch(
-            `http://localhost:5000/adoption-request?petId=${pet._id}`
+            `${process.env.NEXT_PUBLIC_SERVER_URL}/adoption-request?petId=${pet._id}`
         );
 
         const data = await res.json();
@@ -105,7 +105,7 @@ const MyListingsPage = () => {
     const handleApprove = async (request) => {
 
         await fetch(
-            `http://localhost:5000/adoption-request/${request._id}`,
+            `${process.env.NEXT_PUBLIC_SERVER_URL}/adoption-request/${request._id}`,
             {
                 method: "PATCH",
 
@@ -120,7 +120,7 @@ const MyListingsPage = () => {
         );
 
         await fetch(
-            `http://localhost:5000/pet/adopt/${request.petId}`,
+            `${process.env.NEXT_PUBLIC_SERVER_URL}/pet/adopt/${request.petId}`,
             {
                 method: "PATCH",
             }
@@ -158,7 +158,7 @@ const MyListingsPage = () => {
     const handleReject = async (request) => {
 
         await fetch(
-            `http://localhost:5000/adoption-request/${request._id}`,
+            `${process.env.NEXT_PUBLIC_SERVER_URL}/adoption-request/${request._id}`,
             {
                 method: "PATCH",
 
@@ -207,7 +207,7 @@ const MyListingsPage = () => {
     const handleDelete = async () => {
 
         const res = await fetch(
-            `http://localhost:5000/pet/${selectedPetId}`,
+            `${process.env.NEXT_PUBLIC_SERVER_URL}/pet/${selectedPetId}`,
             {
                 method: "DELETE",
             }

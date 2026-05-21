@@ -74,7 +74,7 @@ const AdoptionForm = ({ pet, setShowAdoptForm, }) => {
 
 
         const res = await fetch(
-            "http://localhost:5000/adoption-request",
+            `${process.env.NEXT_PUBLIC_SERVER_URL}/adoption-request`,
             {
                 method: "POST",
 

@@ -19,7 +19,7 @@ export default function RootLayout({ children }) {
       data-theme="light"
       className={`${inter.className} min-h-screen antialiased`}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col bg-base-100 text-base-content transition-colors duration-300">
         <Navbar></Navbar>
         {children}
         <Footer />

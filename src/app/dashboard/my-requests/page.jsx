@@ -41,7 +41,7 @@ const MyRequestsPage = () => {
         if (!user?.email) return;
 
         fetch(
-            `http://localhost:5000/adoption-request?email=${user.email}`
+            `${process.env.NEXT_PUBLIC_SERVER_URL}/adoption-request?email=${user.email}`
         )
             .then((res) => res.json())
             .then((data) => {
@@ -67,7 +67,7 @@ const MyRequestsPage = () => {
         try {
 
             const res = await fetch(
-                `http://localhost:5000/adoption-request/${selectedRequestId}`,
+                `${process.env.NEXT_PUBLIC_SERVER_URL}/adoption-request/${selectedRequestId}`,
                 {
                     method: "DELETE",
                 }
