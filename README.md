@@ -1,36 +1,225 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<div align="center">
 
-## Getting Started
+# 🐾 HomeForPaws
 
-First, run the development server:
+### A Modern Pet Adoption Platform ❤️
+
+Find loving homes for pets, manage adoption requests, and connect caring adopters with rescued animals.
+
+<br/>
+
+🌐 **Live Site:** [YOUR_LIVE_LINK]  
+💻 **Client Repo:** [YOUR_CLIENT_REPO]  
+⚙️ **Server Repo:** [YOUR_SERVER_REPO]
+
+</div>
+
+---
+
+# ✨ Features
+
+## 🔐 Authentication System
+✅ Email & Password Login  
+✅ Google Authentication  
+✅ Protected Dashboard Routes  
+✅ Persistent User Sessions  
+
+---
+
+## 🐶 Pet Management
+✅ Add Pets For Adoption  
+✅ Edit Pet Information  
+✅ Delete Listings  
+✅ Detailed Pet View  
+✅ Responsive Pet Cards  
+
+---
+
+## ❤️ Adoption System
+✅ Send Adoption Requests  
+✅ Prevent Duplicate Requests  
+✅ Prevent Self Adoption  
+✅ Approve / Reject Requests  
+✅ Cancel Requests  
+✅ Mark Pets As Adopted  
+
+---
+
+## 📊 Dashboard Functionalities
+✅ My Listings  
+✅ My Adoption Requests  
+✅ Request Management  
+✅ Adoption Status Control  
+
+---
+
+## 🔎 Search & Filtering
+✅ Search Pets By Name  
+✅ Filter Pets By Species  
+✅ Dynamic Browsing Experience  
+
+---
+
+# 🛠️ Tech Stack
+
+<div align="center">
+
+| Frontend | Backend | Database | Authentication |
+|----------|----------|----------|----------------|
+| Next.js | Express.js | MongoDB Atlas | Better Auth |
+| React | Node.js | MongoDB | JWT |
+| Tailwind CSS | REST API | | Cookie Parser |
+| DaisyUI | Express.js | | CORS |
+| Framer Motion | | | |
+
+</div>
+
+---
+
+# 📦 NPM Packages Used
+
+## 🎨 Frontend Packages
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+react-hook-form
+framer-motion
+sweetalert2
+react-icons
+better-auth
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## ⚙️ Backend Packages
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+express
+mongodb
+jsonwebtoken
+cookie-parser
+cors
+dotenv
+```
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+# 📸 Main Functionalities
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🐾 Pet Listing
+Users can add pets with:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Pet Image
+- Breed
+- Species
+- Location
+- Health Status
+- Vaccination Status
+- Adoption Fee
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📨 Adoption Requests
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 👤 Users Can:
+- Send adoption requests
+- Track request status
+- Cancel pending requests
+
+### 🏠 Owners Can:
+- Approve requests
+- Reject requests
+- Manage adoption flow
+
+---
+
+# 📱 Fully Responsive Design
+
+Optimized for:
+
+📱 Mobile Devices  
+💻 Desktop Screens  
+📟 Tablets  
+
+---
+
+# ⚙️ Environment Variables
+
+## 🌐 Frontend `.env.local`
+
+```env
+NEXT_PUBLIC_API_URL=YOUR_SERVER_URL
+```
+
+---
+
+## 🖥️ Backend `.env`
+
+```env
+PORT=5000
+MONGO_URI=YOUR_MONGODB_URI
+JWT_SECRET=YOUR_SECRET_KEY
+```
+
+---
+
+# 🚀 Run Locally
+
+## 📥 Clone Client Repository
+
+```bash
+git clone YOUR_CLIENT_REPOSITORY_LINK
+```
+
+---
+
+## 📥 Clone Server Repository
+
+```bash
+git clone YOUR_SERVER_REPOSITORY_LINK
+```
+
+---
+
+# ▶️ Frontend Setup
+
+```bash
+cd client
+npm install
+npm run dev
+```
+
+---
+
+# ▶️ Backend Setup
+
+```bash
+cd server
+npm install
+nodemon index.js
+```
+
+---
+
+# 🌐 Deployment
+
+## Frontend
+✅ Vercel
+
+## Backend
+✅ Render / Railway
+
+---
+
+# 👨‍💻 Developer
+
+## Ayon Banerjee
+
+MERN Stack Developer • Deathcore Vocalist • Creative Builder
+
+---
+
+<div align="center">
+
+### ❤️ Thanks For Visiting HomeForPaws
+
+</div>
