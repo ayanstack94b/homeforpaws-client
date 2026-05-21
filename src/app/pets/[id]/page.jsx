@@ -1,6 +1,7 @@
 "use client";
 
 import AdoptionForm from "@/app/dashboard/AdoptionForm";
+import { authClient } from "@/lib/auth-client";
 
 import Image from "next/image";
 
@@ -24,6 +25,10 @@ const PetDetailsPage = () => {
 
     const [showAdoptForm, setShowAdoptForm] =
         useState(false);
+
+    const {
+        data: session,
+    } = authClient.useSession();
 
     useEffect(() => {
 
@@ -156,6 +161,7 @@ const PetDetailsPage = () => {
                         </div>
 
                         {/* right side */}
+
                         <div className="flex min-h-[750px] flex-col justify-between p-8 lg:p-12">
 
                             {
@@ -297,16 +303,34 @@ const PetDetailsPage = () => {
                                         </div>
 
                                         {/* adopt button */}
-                                        <button
-                                            onClick={() =>
-                                                setShowAdoptForm(true)
-                                            }
-                                            className="btn mt-10 h-14 rounded-2xl border-0 bg-blue-600 text-lg text-white hover:bg-blue-700"
-                                        >
+                                        {
+                                            session?.user?.email ? (
 
-                                            Adopt Now
+                                                <button
+                                                    type="button"
+                                                    onClick={() =>
+                                                        setShowAdoptForm(true)
+                                                    }
+                                                    className="btn mt-10 h-14 rounded-2xl border-0 bg-blue-600 text-lg text-white hover:bg-blue-700"
+                                                >
 
-                                        </button>
+                                                    Adopt Now
+
+                                                </button>
+
+                                            ) : (
+
+                                                <Link
+                                                    href="/login"
+                                                    className="btn mt-10 h-14 rounded-2xl border-0 bg-blue-600 text-lg text-white hover:bg-blue-700"
+                                                >
+
+                                                    Login To Adopt
+
+                                                </Link>
+
+                                            )
+                                        }
 
                                     </>
 
@@ -322,7 +346,7 @@ const PetDetailsPage = () => {
 
                         </div>
 
-                    </div>
+                       </div>
 
                 </div>
 
