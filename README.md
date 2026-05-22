@@ -143,13 +143,12 @@ Optimized for:
 📟 Tablets  
 
 ---
-
 # ⚙️ Environment Variables
 
 ## 🌐 Frontend `.env`
 
 ```env
-NEXT_PUBLIC_API_URL=YOUR_SERVER_URL
+NEXT_PUBLIC_SERVER_URL=http://localhost:5000
 ```
 
 ---
@@ -158,8 +157,8 @@ NEXT_PUBLIC_API_URL=YOUR_SERVER_URL
 
 ```env
 PORT=5000
-MONGO_URI=YOUR_MONGODB_URI
-JWT_SECRET=YOUR_SECRET_KEY
+MONGO_URI=your_mongodb_connection_uri
+JWT_SECRET=your_jwt_secret
 ```
 
 ---
