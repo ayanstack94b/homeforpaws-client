@@ -146,7 +146,7 @@ Optimized for:
 
 # ⚙️ Environment Variables
 
-## 🌐 Frontend `.env.local`
+## 🌐 Frontend `.env`
 
 ```env
 NEXT_PUBLIC_API_URL=YOUR_SERVER_URL
@@ -169,7 +169,7 @@ JWT_SECRET=YOUR_SECRET_KEY
 ## 📥 Clone Client Repository
 
 ```bash
-git clone YOUR_CLIENT_REPOSITORY_LINK
+git clone https://github.com/ayanstack94b/homeforpaws-client
 ```
 
 ---
@@ -177,7 +177,7 @@ git clone YOUR_CLIENT_REPOSITORY_LINK
 ## 📥 Clone Server Repository
 
 ```bash
-git clone YOUR_SERVER_REPOSITORY_LINK
+git clone https://github.com/ayanstack94b/HomeForPaws-server
 ```
 
 ---
@@ -208,7 +208,7 @@ nodemon index.js
 ✅ Vercel
 
 ## Backend
-✅ Render / Railway
+✅ Vercel
 
 ---
 
