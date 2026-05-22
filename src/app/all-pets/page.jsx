@@ -25,9 +25,7 @@ const AllPetsPage = () => {
                 setPets(data);
 
                 setLoading(false);
-
             });
-
     }, [search, species]);
 
     if (loading) {
@@ -48,11 +46,7 @@ const AllPetsPage = () => {
                     className="mb-14 text-center"
                 >
 
-                    <h1 className="text-4xl md:text-5xl font-bold text-gray-800">
-
-                        All Pets
-
-                    </h1>
+                    <h1 className="text-4xl md:text-5xl font-bold text-gray-800">All Pets</h1>
 
                     <p className="mx-auto mt-4 max-w-2xl text-gray-600 leading-8">
 
@@ -63,7 +57,7 @@ const AllPetsPage = () => {
 
                 </motion.div>
 
-                {/* Search + Filter */}
+                {/* Search + Filter section*/}
                 <div className="mb-10 flex flex-col gap-4 lg:flex-row">
 
                     {/* Search */}
@@ -109,10 +103,8 @@ const AllPetsPage = () => {
 
                 </div>
 
-             
+                {/* Grid section*/}
 
-
-                {/* Grid */}
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
 
                     {

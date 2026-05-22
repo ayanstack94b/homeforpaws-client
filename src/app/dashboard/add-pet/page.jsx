@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
-import Swal from "sweetalert2";
+import { FaDog } from "react-icons/fa6";
 
 
 const AddPetPage = () => {
@@ -26,12 +26,8 @@ const AddPetPage = () => {
 
     const onSubmit = async(data) => {
 
-        const petData = {
-
-            ...data,
-
+        const petData = {...data,
             ownerEmail: session?.user?.email,
-
             age: {
 
                 day: data.day,
@@ -43,7 +39,6 @@ const AddPetPage = () => {
             },
 
         };
-        console.log(petData);
 
         setShowSuccess(true);
 
@@ -64,20 +59,6 @@ const AddPetPage = () => {
 
         if (resData.insertedId) {
 
-            // Swal.fire({
-
-            //     icon: "success",
-
-            //     title: "Pet Added Successfully",
-
-            //     text: "Your pet listing is now live.",
-
-            //     timer: 1800,
-
-            //     showConfirmButton: false,
-
-            // });
-
             setTimeout(() => {
 
                 router.push("/dashboard/my-listings");
@@ -85,8 +66,6 @@ const AddPetPage = () => {
             }, 1800);
 
         }
-        
-        // console.log(resData);
     };
 
     return (
@@ -520,7 +499,7 @@ const AddPetPage = () => {
                 </motion.div>
 
             </div>
-            {/* SUCCESS POPUP */}
+            {/* Sucess Popup */}
             {
                 showSuccess && (
 
@@ -533,7 +512,7 @@ const AddPetPage = () => {
                             className="relative w-full max-w-md overflow-hidden rounded-3xl bg-white p-8 text-center shadow-2xl"
                         >
 
-                            {/* Background Blur Circle */}
+                            
                             <div className="absolute -top-10 -right-10 h-40 w-40 rounded-full bg-blue-100 blur-3xl opacity-60"></div>
 
                             {/* Dog Emoji */}
@@ -545,9 +524,11 @@ const AddPetPage = () => {
                                     duration: 1.5,
                                     repeat: Infinity,
                                 }}
-                                className="relative mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-blue-50 text-5xl shadow-md"
+                                className="relative mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-blue-50 text-5xl text-orange-500 shadow-md"
                             >
-                                🐶
+
+                                <FaDog />
+
                             </motion.div>
 
                             <h2 className="relative mt-6 text-3xl font-bold text-gray-800">

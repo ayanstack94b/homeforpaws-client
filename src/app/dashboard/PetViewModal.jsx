@@ -3,12 +3,7 @@
 import { authClient } from "@/lib/auth-client";
 import Image from "next/image";
 
-import {
-    FaDog,
-    FaMapMarkerAlt,
-    FaMars,
-    FaVenus,
-} from "react-icons/fa";
+import {FaDog,FaMapMarkerAlt,FaMars,FaVenus} from "react-icons/fa";
 import AdoptionForm from "./AdoptionForm";
 import Link from "next/link";
 

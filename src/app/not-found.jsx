@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-
+import { FaDog } from "react-icons/fa6";
 const NotFoundPage = () => {
 
     return (
@@ -35,9 +35,11 @@ const NotFoundPage = () => {
                         duration: 2,
                         repeat: Infinity,
                     }}
-                    className="text-8xl md:text-9xl"
+                    className="text-8xl text-orange-500 md:text-9xl"
                 >
-                    🐶
+
+                    <FaDog />
+
                 </motion.div>
 
                 {/* 404 */}

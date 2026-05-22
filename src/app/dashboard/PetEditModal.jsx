@@ -87,7 +87,7 @@ const PetEditModal = ({
                 <div className="modal-box max-w-4xl rounded-[35px] border border-blue-100 bg-white p-0 shadow-2xl">
 
                     {/* header */}
-                    <div className="bg-gradient-to-r from-blue-500 to-sky-500 px-8 py-6 text-white">
+                    <div className="bg-linear-to-r from-blue-500 to-sky-500 px-8 py-6 text-white">
 
                         <h2 className="text-4xl font-bold">
                             Update Pet
@@ -403,7 +403,7 @@ const PetEditModal = ({
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
-                            className="fixed inset-0 z-[999] flex items-center justify-center bg-black/20 backdrop-blur-sm px-4"
+                            className="fixed inset-0 z-999 flex items-center justify-center bg-black/20 backdrop-blur-sm px-4"
                         >
 
                             <motion.div

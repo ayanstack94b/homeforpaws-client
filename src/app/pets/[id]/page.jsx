@@ -17,14 +17,11 @@ const PetDetailsPage = () => {
 
     const { id } = useParams();
 
-    const [pet, setPet] =
-        useState(null);
+    const [pet, setPet] = useState(null);
 
-    const [loading, setLoading] =
-        useState(true);
+    const [loading, setLoading] = useState(true);
 
-    const [showAdoptForm, setShowAdoptForm] =
-        useState(false);
+    const [showAdoptForm, setShowAdoptForm] = useState(false);
 
     const {
         data: session,
@@ -99,7 +96,7 @@ const PetDetailsPage = () => {
 
     return (
 
-        <section className="min-h-screen bg-gradient-to-b from-blue-50 via-white to-blue-50 py-14">
+        <section className="min-h-screen bg-linear-to-b from-blue-50 via-white to-blue-50 py-14">
 
             <div className="container mx-auto px-4">
 
@@ -121,7 +118,7 @@ const PetDetailsPage = () => {
                     <div className="grid grid-cols-1 lg:grid-cols-2">
 
                         {/* left image */}
-                        <div className="relative h-[400px] lg:h-full">
+                        <div className="relative h-100 lg:h-full">
 
                             <Image
                                 src={pet?.image}
@@ -133,7 +130,7 @@ const PetDetailsPage = () => {
                             />
 
                             {/* overlay */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
+                            <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/10 to-transparent"></div>
 
                             {/* pet info */}
                             <div className="absolute bottom-8 left-8">
@@ -257,7 +254,7 @@ const PetDetailsPage = () => {
                                             </div>
 
                                             {/* adoption fee */}
-                                            <div className="mt-6 rounded-[30px] bg-gradient-to-r from-blue-600 to-blue-500 p-6 text-white shadow-xl">
+                                            <div className="mt-6 rounded-[30px] bg-linear-to-r from-blue-600 to-blue-500 p-6 text-white shadow-xl">
 
                                                 <div className="flex items-center gap-4">
 
@@ -346,7 +343,7 @@ const PetDetailsPage = () => {
 
                         </div>
 
-                       </div>
+                    </div>
 
                 </div>
 

@@ -14,11 +14,12 @@ import { authClient } from "@/lib/auth-client";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
-
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useState } from "react";
 
 
 const LoginPage = () => {
-
+    const [showPassword, setShowPassword] = useState(false);
     const router = useRouter();
 
     const {
@@ -292,15 +293,46 @@ const LoginPage = () => {
 
                                 </label>
 
-                                <input
-                                    type="password"
-                                    placeholder="Enter your password"
-                                    className="input input-bordered w-full rounded-2xl"
-                                    {...register("password", {
-                                        required:
-                                            "Password is required",
-                                    })}
-                                />
+                                <div className="relative">
+
+                                    <input
+                                        type={showPassword ? "text" : "password"}
+                                        placeholder="Enter your password"
+                                        className="input input-bordered w-full rounded-2xl pr-12"
+                                        {...register("password", {
+                                            required:
+                                                "Password is required",
+
+                                            minLength: {
+                                                value: 6,
+                                                message:
+                                                    "Password must be at least 6 characters",
+                                            },
+
+                                            pattern: {
+                                                value:
+                                                    /^(?=.*[a-z])(?=.*[A-Z]).+$/,
+                                                message:
+                                                    "Password must contain uppercase and lowercase letters",
+                                            },
+                                        })}
+                                    />
+
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                        className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500"
+                                    >
+
+                                        {
+                                            showPassword
+                                                ? <FaEyeSlash />
+                                                : <FaEye />
+                                        }
+
+                                    </button>
+
+                                </div>
 
                                 {
                                     errors.password && (

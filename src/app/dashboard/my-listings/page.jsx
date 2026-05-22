@@ -68,7 +68,7 @@ const MyListingsPage = () => {
 
     };
 
-    /*OPEN EDIT MODAL*/
+    /*Open edit modal */
 
     const openEditModal = (pet) => {
 
@@ -80,7 +80,7 @@ const MyListingsPage = () => {
 
     };
 
-    /* OPEN REQUESTS MODAL */
+    /* Open request modal */
 
     const openRequestsModal = async (pet) => {
 
@@ -100,7 +100,7 @@ const MyListingsPage = () => {
 
     };
 
-    /* APPROVE REQUEST */
+
 
     const handleApprove = async (request) => {
 
@@ -153,7 +153,7 @@ const MyListingsPage = () => {
     };
 
 
-    /* REJECT REQUEST */
+    /* Reject Request */
 
     const handleReject = async (request) => {
 
@@ -192,7 +192,7 @@ const MyListingsPage = () => {
 
     };
 
-    /*OPEN DELETE MODAL*/
+    // Delete modal
 
     const openDeleteModal = (id) => {
 
@@ -202,7 +202,7 @@ const MyListingsPage = () => {
 
     };
 
-    /*DELETE PET*/
+    // Delete pet
 
     const handleDelete = async () => {
 

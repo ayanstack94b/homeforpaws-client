@@ -112,7 +112,7 @@ const PetDetailsPage = () => {
         );
 
     }
-    console.log(session);
+
     /* not found */
     if (!pet) {
 
@@ -146,7 +146,7 @@ const PetDetailsPage = () => {
         );
 
     }
-    console.log(session)
+
 
 
     return (
@@ -173,7 +173,7 @@ const PetDetailsPage = () => {
                     <div className="grid grid-cols-1 lg:grid-cols-2">
 
                         {/* image */}
-                        <div className="relative h-[400px] lg:h-full">
+                        <div className="relative h-100 lg:h-full">
 
                             <img
                                 src={pet?.image}
@@ -181,7 +181,7 @@ const PetDetailsPage = () => {
                                 className="h-full w-full object-cover"
                             />
 
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
+                            <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/10 to-transparent"></div>
 
                             <div className="absolute bottom-8 left-8">
 
@@ -308,7 +308,7 @@ const PetDetailsPage = () => {
                             </div>
 
                             {/* fee */}
-                            <div className="mt-6 rounded-[30px] bg-gradient-to-r from-blue-600 to-blue-500 p-6 text-white shadow-xl">
+                            <div className="mt-6 rounded-[30px] bg-linear-to-r from-blue-600 to-blue-500 p-6 text-white shadow-xl">
 
                                 <div className="flex items-center gap-4">
 
@@ -361,8 +361,6 @@ const PetDetailsPage = () => {
                                 <button
                                     type="button"
                                     onClick={() => {
-
-                                        console.log(session);
 
                                         if (!session?.user?.email) {
 

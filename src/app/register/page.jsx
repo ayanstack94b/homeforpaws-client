@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 
 import { motion } from "framer-motion";
-
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import {
     FaPaw,
     FaGoogle,
@@ -14,8 +14,11 @@ import { authClient } from "@/lib/auth-client";
 import { redirect } from "next/navigation";
 import Swal from "sweetalert2";
 import { FcGoogle } from "react-icons/fc";
+import { useState } from "react";
 
 const RegisterPage = () => {
+
+    const [showPassword, setShowPassword] = useState(false);
 
     const {
         register,
@@ -37,8 +40,6 @@ const RegisterPage = () => {
                 image: formData.photo,
 
             });
-
-        console.log({ data, error });
 
 
         if (data) {
@@ -331,28 +332,48 @@ const RegisterPage = () => {
 
                                 </label>
 
-                                <input
-                                    type="password"
-                                    placeholder="Enter your password"
-                                    className="input input-bordered w-full rounded-2xl"
-                                    {...register("password", {
-                                        required:
-                                            "Password is required",
+                                <div className="relative">
 
-                                        minLength: {
-                                            value: 6,
-                                            message:
-                                                "Password must be at least 6 characters",
-                                        },
+                                    <input
+                                        type={showPassword ? "text" : "password"}
+                                        placeholder="Enter your password"
+                                        className="input input-bordered w-full rounded-2xl pr-12"
+                                        {...register("password", {
+                                            required:
+                                                "Password is required",
 
-                                        pattern: {
-                                            value:
-                                                /^(?=.*[a-z])(?=.*[A-Z]).+$/,
-                                            message:
-                                                "Password must contain uppercase and lowercase letters",
-                                        },
-                                    })}
-                                />
+                                            minLength: {
+                                                value: 6,
+                                                message:
+                                                    "Password must be at least 6 characters",
+                                            },
+
+                                            pattern: {
+                                                value:
+                                                    /^(?=.*[a-z])(?=.*[A-Z]).+$/,
+                                                message:
+                                                    "Password must contain uppercase and lowercase letters",
+                                            },
+                                        })}
+                                    />
+
+                                    <button
+                                        type="button"
+                                        onClick={() =>
+                                            setShowPassword(!showPassword)
+                                        }
+                                        className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500"
+                                    >
+
+                                        {
+                                            showPassword
+                                                ? <FaEyeSlash />
+                                                : <FaEye />
+                                        }
+
+                                    </button>
+
+                                </div>
 
                                 {
                                     errors.password && (

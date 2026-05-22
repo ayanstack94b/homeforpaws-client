@@ -8,9 +8,11 @@ Find loving homes for pets, manage adoption requests, and connect caring adopter
 
 <br/>
 
-🌐 **Live Site:** [YOUR_LIVE_LINK]  
-💻 **Client Repo:** [YOUR_CLIENT_REPO]  
-⚙️ **Server Repo:** [YOUR_SERVER_REPO]
+🌐 **Live Site:** https://home-for-paws-client.vercel.app/
+
+💻 **Client Repository:** https://github.com/ayanstack94b/homeforpaws-client
+
+⚙️ **Server Repository:** https://github.com/ayanstack94b/HomeForPaws-server
 
 </div>
 

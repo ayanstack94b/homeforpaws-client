@@ -49,10 +49,6 @@ const AdoptionForm = ({ pet, setShowAdoptForm, }) => {
             return;
 
         }
-
-
-
-
         const adoptionInfo = {
 
             petId: pet?._id,
@@ -87,10 +83,6 @@ const AdoptionForm = ({ pet, setShowAdoptForm, }) => {
         );
 
         const data = await res.json();
-
-        console.log(data);
-
-
 
         if (data.inserted) {
 
@@ -140,9 +132,6 @@ const AdoptionForm = ({ pet, setShowAdoptForm, }) => {
         setMessage("");
 
     };
-
-
-
 
     return (
 
